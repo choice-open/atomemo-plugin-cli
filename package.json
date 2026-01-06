@@ -39,6 +39,9 @@
     "bin": "automation",
     "commands": "./dist/commands",
     "dirname": "automation",
+    "helpOptions": {
+      "flagSortOrder": "none"
+    },
     "plugins": [
       "@oclif/plugin-autocomplete",
       "@oclif/plugin-help",
@@ -48,13 +51,20 @@
     "topicSeparator": " "
   },
   "dependencies": {
+    "@inquirer/checkbox": "^5.0.3",
+    "@inquirer/input": "^5.0.3",
+    "@inquirer/select": "^5.0.3",
     "@oclif/core": "^4.8.0",
     "@oclif/plugin-autocomplete": "^3.2.39",
     "@oclif/plugin-help": "^6.2.36",
-    "@oclif/plugin-version": "^2.2.36"
+    "@oclif/plugin-version": "^2.2.36",
+    "es-toolkit": "^1.43.0",
+    "eta": "^4.5.0",
+    "ts-dedent": "^2.2.0",
+    "zod": "^4.2.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.9",
+    "@biomejs/biome": "2.3.10",
     "@oclif/test": "^4.1.15",
     "@types/chai": "4.3.20",
     "@types/mocha": "10.0.10",
