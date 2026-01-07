@@ -8,5 +8,6 @@
 oclif.manifest.json
 
 
-yarn.lock
+tsconfig.tsbuildinfo
 package-lock.json
+yarn.lock
