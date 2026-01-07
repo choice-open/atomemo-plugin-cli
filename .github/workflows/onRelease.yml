@@ -13,5 +13,5 @@ jobs:
         with:
           node-version: latest
       - run: npm install
-      - run: npm run build
+      - run: NODE_ENV=production npm run build
       - run: npm publish
