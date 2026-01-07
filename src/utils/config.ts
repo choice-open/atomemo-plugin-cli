@@ -2,7 +2,7 @@ import { promises as fs } from "node:fs"
 import { homedir } from "node:os"
 import { join } from "node:path"
 import { toMerged } from "es-toolkit/object"
-import { ZodError, z } from "zod"
+import { z } from "zod"
 
 function getConfigDir(): string {
   return process.env.CHOICEFORM_CONFIG_DIR ?? join(homedir(), ".choiceform")
@@ -24,19 +24,11 @@ const ConfigSchema = z.object({
 export type Config = z.infer<typeof ConfigSchema>
 
 export async function save(config: Config): Promise<void> {
-  try {
-    const validated = ConfigSchema.parse(config)
-    const configDir = getConfigDir()
-    const configFile = getConfigFile()
-    await fs.mkdir(configDir, { recursive: true })
-    await fs.writeFile(configFile, JSON.stringify(validated, null, 2), "utf-8")
-  } catch (error) {
-    if (error instanceof ZodError) {
-      console.error(z.treeifyError(error))
-      console.info(JSON.stringify(config, null, 2))
-    }
-    throw error
-  }
+  const validated = ConfigSchema.parse(config)
+  const configDir = getConfigDir()
+  const configFile = getConfigFile()
+  await fs.mkdir(configDir, { recursive: true })
+  await fs.writeFile(configFile, JSON.stringify(validated, null, 2), "utf-8")
 }
 
 export async function load(): Promise<Config> {
