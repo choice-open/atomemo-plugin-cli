@@ -1,6 +1,6 @@
 {
-  "name": "automation-plugin-cli",
-  "version": "0.0.0",
+  "name": "@choiceopen/automation-plugin-cli",
+  "version": "0.0.1-2",
   "description": "A command-line utility for building and publishing Choiceform Automation Plugin.",
   "keywords": [
     "oclif"
@@ -23,7 +23,7 @@
     "./oclif.manifest.json"
   ],
   "scripts": {
-    "build": "shx rm -rf dist && tsc -b",
+    "build": "shx rm -rf dist && tsc --build",
     "check": "biome check --write",
     "prepack": "oclif manifest && oclif readme",
     "postpack": "shx rm -f oclif.manifest.json",
