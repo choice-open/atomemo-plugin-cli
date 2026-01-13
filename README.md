@@ -20,7 +20,7 @@ $ npm install -g @choiceopen/automation-plugin-cli
 $ automation COMMAND
 running command...
 $ automation (--version)
-@choiceopen/automation-plugin-cli/0.1.1 darwin-arm64 node-v24.12.0
+@choiceopen/automation-plugin-cli/0.1.2 darwin-arm64 node-v24.12.0
 $ automation --help [COMMAND]
 USAGE
   $ automation COMMAND
@@ -57,7 +57,7 @@ EXAMPLES
     $ automation auth login
 ```
 
-_See code: [src/commands/auth/login.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.1.1/src/commands/auth/login.ts)_
+_See code: [src/commands/auth/login.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.1.2/src/commands/auth/login.ts)_
 
 ## `automation autocomplete [SHELL]`
 
@@ -125,7 +125,7 @@ EXAMPLES
   $ automation plugin refresh-key
 ```
 
-_See code: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.1.1/src/commands/plugin/refresh-key.ts)_
+_See code: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.1.2/src/commands/plugin/refresh-key.ts)_
 
 ## `automation version`
 

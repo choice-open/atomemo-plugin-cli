@@ -1,6 +1,6 @@
 {
   "name": "@choiceopen/automation-plugin-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A command-line utility for building and publishing Choiceform Automation Plugin.",
   "keywords": [
     "oclif"
