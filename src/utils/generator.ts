@@ -39,7 +39,7 @@ export class TypeScriptPluginGenerator implements PluginGenerator {
 
   constructor(public context: PluginGenerator["context"]) {
     this.context.props.permissions = this.groupPermissions(
-      this.context.props.permissions as string[],
+      (this.context.props.permissions as string[]) ?? [],
     )
   }
 

@@ -131,6 +131,7 @@ export default class AuthLogin extends Command {
               break
             case "slow_down":
               this.pollingInterval += 5
+              setTimeout(poll, this.pollingInterval * 1000)
               break
             case "access_denied":
               spinner.error("Access was denied by the user")
