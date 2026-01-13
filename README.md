@@ -20,7 +20,7 @@ $ npm install -g @choiceopen/automation-plugin-cli
 $ automation COMMAND
 running command...
 $ automation (--version)
-@choiceopen/automation-plugin-cli/0.1.2 darwin-arm64 node-v24.12.0
+@choiceopen/automation-plugin-cli/0.1.2 linux-x64 node-v20.19.6
 $ automation --help [COMMAND]
 USAGE
   $ automation COMMAND
@@ -32,30 +32,6 @@ USAGE
 * [`automation autocomplete [SHELL]`](#automation-autocomplete-shell)
 * [`automation help [COMMAND]`](#automation-help-command)
 * [`automation version`](#automation-version)
-
-## `automation auth login`
-
-Uses device authorization flow to login with your Choiceform account by following these steps:
-
-```
-USAGE
-  $ automation auth login
-
-DESCRIPTION
-  Uses device authorization flow to login with your Choiceform account by following these steps:
-
-  1. Request a validation code automatically
-  2. Show the validation code and a verification URL to the user
-  3. Open the verification URL in the user's browser and paste the verification code
-  4. Submit the validation code to complete the device authorization flow
-
-EXAMPLES
-  Login by using device authorization flow
-
-    $ automation auth login
-```
-
-_See code: [src/commands/auth/login.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.1.2/src/commands/auth/login.ts)_
 
 ## `automation autocomplete [SHELL]`
 
@@ -107,23 +83,6 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.36/src/commands/help.ts)_
-
-## `automation plugin refresh-key`
-
-Refresh or create API Key for plugin debugging in development stage.
-
-```
-USAGE
-  $ automation plugin refresh-key
-
-DESCRIPTION
-  Refresh or create API Key for plugin debugging in development stage.
-
-EXAMPLES
-  $ automation plugin refresh-key
-```
-
-_See code: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.1.2/src/commands/plugin/refresh-key.ts)_
 
 ## `automation version`
 
