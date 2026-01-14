@@ -7,6 +7,8 @@
 
 ## [Unreleased]
 
+## [0.1.3] - 2025-01-14
+
 ### Added
 
 - `auth status` 命令 - 查看当前设备的鉴权状态，显示用户名、邮箱和会话有效期
@@ -49,6 +51,7 @@
 - Biome 代码质量工具
 - GitHub Actions 自动发布流程
 
-[Unreleased]: https://github.com/choice-open/automation-plugin-cli/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/choice-open/automation-plugin-cli/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/choice-open/automation-plugin-cli/compare/v0.1.0...v0.1.3
 [0.1.0]: https://github.com/choice-open/automation-plugin-cli/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/choice-open/automation-plugin-cli/releases/tag/v0.0.1
