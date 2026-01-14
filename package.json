@@ -1,6 +1,6 @@
 {
   "name": "@choiceopen/automation-plugin-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A command-line utility for building and publishing Choiceform Atomemo Plugin.",
   "keywords": [
     "oclif"
@@ -35,7 +35,9 @@
     "version": "oclif readme && git add README.md"
   },
   "oclif": {
-    "alias": ["atomemo"],
+    "alias": [
+      "atomemo"
+    ],
     "bin": "atomemo",
     "commands": "./dist/commands",
     "dirname": "atomemo",
