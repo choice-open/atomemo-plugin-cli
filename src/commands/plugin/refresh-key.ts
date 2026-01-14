@@ -21,7 +21,7 @@ export default class PluginRefreshKey extends Command {
       this.log(
         colorize(
           "red",
-          "✗ You're not authenticated yet, please run 'atomemo auth login' first.",
+          "✗ 未找到访问令牌，请先运行 'atomemo auth login'",
         ),
       )
       return process.exit(1)
@@ -41,8 +41,8 @@ export default class PluginRefreshKey extends Command {
       this.log("Your debug API Key has been saved to .env file.")
       this.log(`Key preview: ${this.maskApiKey(apiKey)}`)
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown error"
-      this.log(colorize("red", `✗ Failed to refresh debug API Key: ${message}`))
+      const message = error instanceof Error ? error.message : "未知错误"
+      this.log(colorize("red", `✗ 刷新调试 API Key 失败: ${message}`))
       return process.exit(1)
     }
   }
