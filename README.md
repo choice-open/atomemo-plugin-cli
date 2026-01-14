@@ -20,7 +20,7 @@ $ npm install -g @choiceopen/automation-plugin-cli
 $ automation COMMAND
 running command...
 $ automation (--version)
-@choiceopen/automation-plugin-cli/0.1.3 darwin-arm64 node-v24.13.0
+@choiceopen/automation-plugin-cli/0.2.0 darwin-arm64 node-v24.13.0
 $ automation --help [COMMAND]
 USAGE
   $ automation COMMAND
@@ -29,9 +29,63 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`automation auth login`](#automation-auth-login)
+* [`automation auth status`](#automation-auth-status)
 * [`automation autocomplete [SHELL]`](#automation-autocomplete-shell)
 * [`automation help [COMMAND]`](#automation-help-command)
+* [`automation plugin checksum [FILE]`](#automation-plugin-checksum-file)
+* [`automation plugin init`](#automation-plugin-init)
+* [`automation plugin pack [FILE]`](#automation-plugin-pack-file)
+* [`automation plugin permission [FILE]`](#automation-plugin-permission-file)
+* [`automation plugin refresh-key`](#automation-plugin-refresh-key)
+* [`automation plugin run [FILE]`](#automation-plugin-run-file)
 * [`automation version`](#automation-version)
+
+## `automation auth login`
+
+Uses device authorization flow to login with your Choiceform account by following these steps:
+
+```
+USAGE
+  $ automation auth login
+
+DESCRIPTION
+  Uses device authorization flow to login with your Choiceform account by following these steps:
+
+  1. Request a validation code automatically
+  2. Show the validation code and a verification URL to the user
+  3. Open the verification URL in the user's browser and paste the verification code
+  4. Submit the validation code to complete the device authorization flow
+
+EXAMPLES
+  Login by using device authorization flow
+
+    $ automation auth login
+```
+
+_See code: [src/commands/auth/login.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.0/src/commands/auth/login.ts)_
+
+## `automation auth status`
+
+Display the current authentication status.
+
+```
+USAGE
+  $ automation auth status
+
+DESCRIPTION
+  Display the current authentication status.
+
+  Shows user information and session details if authenticated,
+  or prompts to login if not yet authenticated.
+
+EXAMPLES
+  Check current authentication status
+
+    $ automation auth status
+```
+
+_See code: [src/commands/auth/status.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.0/src/commands/auth/status.ts)_
 
 ## `automation autocomplete [SHELL]`
 
@@ -83,6 +137,156 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.36/src/commands/help.ts)_
+
+## `automation plugin checksum [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ automation plugin checksum [FILE] [-f] [-n <value>]
+
+ARGUMENTS
+  [FILE]  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ automation plugin checksum
+```
+
+_See code: [src/commands/plugin/checksum.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.0/src/commands/plugin/checksum.ts)_
+
+## `automation plugin init`
+
+Initialize a new plugin with step-by-step interactive instructions.
+
+```
+USAGE
+  $ automation plugin init [-i] [-n my-awesome-plugin] [-d Descriptive
+    text...] [-a John Doe] [-e john.doe@example.com] [-u <value>] [--locales en_US|zh_Hans|ja_JP...] [-l
+    elixir|python|typescript] [-t extension|llm|tool|trigger]
+
+FLAGS
+  -a, --author=John Doe                  Author name
+  -d, --description=Descriptive text...  Short description
+  -e, --email=john.doe@example.com       Author email address
+  -i, --[no-]interactive                 Use interactive mode (by default)
+  -l, --language=<option>                Programming language to use for plugin development
+                                         <options: elixir|python|typescript>
+  -n, --name=my-awesome-plugin           Plugin name
+  -t, --type=<option>                    Plugin type
+                                         <options: extension|llm|tool|trigger>
+  -u, --url=<value>                      Repository URL
+      --locales=<option>...              Provide READMEs in which languages
+                                         <options: en_US|zh_Hans|ja_JP>
+
+DESCRIPTION
+  Initialize a new plugin with step-by-step interactive instructions.
+
+  Providing required flags skips interactive flow and completes initialization in one go.
+
+EXAMPLES
+  Start with interactive initialization:
+
+    $ automation plugin init
+```
+
+_See code: [src/commands/plugin/init.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.0/src/commands/plugin/init.ts)_
+
+## `automation plugin pack [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ automation plugin pack [FILE] [-f] [-n <value>]
+
+ARGUMENTS
+  [FILE]  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ automation plugin pack
+```
+
+_See code: [src/commands/plugin/pack.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.0/src/commands/plugin/pack.ts)_
+
+## `automation plugin permission [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ automation plugin permission [FILE] [-f] [-n <value>]
+
+ARGUMENTS
+  [FILE]  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ automation plugin permission
+```
+
+_See code: [src/commands/plugin/permission.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.0/src/commands/plugin/permission.ts)_
+
+## `automation plugin refresh-key`
+
+Refresh or create API Key for plugin debugging in development stage.
+
+```
+USAGE
+  $ automation plugin refresh-key
+
+DESCRIPTION
+  Refresh or create API Key for plugin debugging in development stage.
+
+EXAMPLES
+  $ automation plugin refresh-key
+```
+
+_See code: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.0/src/commands/plugin/refresh-key.ts)_
+
+## `automation plugin run [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ automation plugin run [FILE] [-f] [-n <value>]
+
+ARGUMENTS
+  [FILE]  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ automation plugin run
+```
+
+_See code: [src/commands/plugin/run.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.0/src/commands/plugin/run.ts)_
 
 ## `automation version`
 
