@@ -284,6 +284,7 @@ interface PluginGenerator {
 - [ ] 实现 `plugin pack` - 打包插件为发布格式
 - [ ] 实现 `plugin permission` - 交互式权限配置
 - [ ] 实现 `plugin run` - 本地开发服务器
+- [ ] 实现 `auth status` - 查看当前的鉴权状态
 - [ ] 添加 `elixir` 插件模板
 - [ ] 添加 `python` 插件模板
 

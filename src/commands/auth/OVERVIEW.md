@@ -8,8 +8,19 @@
 |------|------|
 | `index.ts` | 命令组入口，显示帮助信息（隐藏命令） |
 | `login.ts` | OAuth 2.0 Device Authorization Flow 登录实现 |
+| `status.ts` | 查看当前鉴权状态 |
 
 ## 核心功能
+
+### `status.ts` - 鉴权状态查询
+
+显示当前设备的鉴权状态：
+
+1. **检查令牌** - 检查本地配置中是否存在 `access_token`
+2. **获取会话** - 调用 `/v1/auth/get-session` 获取会话详情
+3. **显示信息** - 展示用户名、邮箱、会话更新时间和过期时间
+
+**未鉴权时**：提示用户执行 `automation auth login`
 
 ### `login.ts` - 设备授权登录
 
