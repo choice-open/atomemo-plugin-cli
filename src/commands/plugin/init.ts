@@ -111,6 +111,26 @@ export default class PluginInit extends Command {
     })
 
     await generator.generate()
+
+    this.log(
+      colorize(
+        "blueBright",
+        dedent`
+          🎉 Congratulation, you have already create a Atomemo Plugin!
+
+          Run the following commands to start the plugin:
+          ${colorize("bold", colorize("yellowBright", `cd ${flags.name}`))}
+          ${colorize("bold", colorize("yellowBright", `bun install`))}
+          ${colorize("bold", colorize("yellowBright", `bun run dev`))}
+
+          In order to test your plugin in debugging mode, run the following command:
+          ${colorize("bold", colorize("yellowBright", `atomemo plugin refresh-key`))}
+
+          Then, run the following command to connect the plugin hub service.
+          ${colorize("bold", colorize("yellowBright", `bun run ./dist`))}
+        `,
+      ),
+    )
   }
 
   private nameIsValid(name: unknown) {

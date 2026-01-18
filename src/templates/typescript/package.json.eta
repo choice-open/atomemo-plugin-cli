@@ -34,7 +34,7 @@
     "prepublishOnly": "bun run build"
   },
   "dependencies": {
-    "@choiceopen/automation-plugin-sdk-js": "@choiceopen/automation-plugin-sdk-js",
+    "@choiceopen/automation-plugin-sdk-js": "^0.1.0",
     "dotenv": "^17.2.3",
     "zod": "^4.3.5"
   },

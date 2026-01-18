@@ -65,7 +65,6 @@ export class TypeScriptPluginGenerator implements PluginGenerator {
         await this.#generateFiles(sourcePath, join(target, entry.name))
       } else {
         if (extname(sourcePath).toLowerCase() === ".eta") {
-          console.info(sourcePath, entry, this.renderer)
           const fileName = basename(sourcePath, extname(sourcePath))
           const templatePath = sourcePath.replace(
             this.renderer.config.views ?? "",
