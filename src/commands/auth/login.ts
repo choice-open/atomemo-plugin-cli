@@ -67,10 +67,16 @@ export default class AuthLogin extends Command {
 
     const spinner = yoctoSpinner({ text: "Polling for token..." }).start()
 
-    const result = (await this.pollForToken(
-      payload.device_code,
-      spinner,
-    )) as Record<string, string>
+    let result: Record<string, string>
+    try {
+      result = await this.pollForToken(payload.device_code, spinner)
+    } catch (error) {
+      if (error instanceof ExitError) {
+        this.exit(error.code)
+      }
+      throw error
+    }
+
     await configStore.update({ auth: { access_token: result.access_token } })
 
     const session = await fetch(`${this.endpoint}/v1/auth/get-session`, {
@@ -106,8 +112,11 @@ export default class AuthLogin extends Command {
     return (await response.json()) as Record<string, string>
   }
 
-  private async pollForToken(device_code: string, spinner: Spinner) {
-    return new Promise((resolve) => {
+  private async pollForToken(
+    device_code: string,
+    spinner: Spinner,
+  ): Promise<Record<string, string>> {
+    return new Promise((resolve, reject) => {
       const poll = async () => {
         const response = await fetch(`${this.endpoint}/v1/auth/device/token`, {
           method: "POST",
@@ -135,13 +144,16 @@ export default class AuthLogin extends Command {
               break
             case "access_denied":
               spinner.error("Access was denied by the user")
-              return process.exit(0)
+              reject(new ExitError(0, "access_denied"))
+              break
             case "expired_token":
               spinner.error("The device code has expired. Please try again.")
-              return process.exit(0)
+              reject(new ExitError(0, "expired_token"))
+              break
             default:
               spinner.error(`Error: ${payload.error_description}`)
-              return process.exit(1)
+              reject(new ExitError(1, payload.error_description))
+              break
           }
         } else {
           spinner.success("Token acquired successfully\n")
@@ -151,5 +163,15 @@ export default class AuthLogin extends Command {
 
       setTimeout(poll, this.pollingInterval * 1000)
     })
+  }
+}
+
+class ExitError extends Error {
+  constructor(
+    public code: number,
+    message: string,
+  ) {
+    super(message)
+    this.name = "ExitError"
   }
 }

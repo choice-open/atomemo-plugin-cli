@@ -147,7 +147,10 @@ describe("config", () => {
       const loaded = await config.load()
       expect(loaded).to.deep.equal({
         auth: {
-          endpoint: "http://localhost:5001",
+          endpoint: "https://oneauth.choiceform.io",
+        },
+        hub: {
+          endpoint: "https://automation-plugin-api.choiceform.io",
         },
       })
 
@@ -179,6 +182,9 @@ describe("config", () => {
       expect(loaded).to.deep.equal({
         auth: {
           endpoint: "https://oneauth.choiceform.io",
+        },
+        hub: {
+          endpoint: "https://automation-plugin-api.choiceform.io",
         },
       })
 

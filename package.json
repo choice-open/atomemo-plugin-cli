@@ -1,6 +1,6 @@
 {
   "name": "@choiceopen/automation-plugin-cli",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A command-line utility for building and publishing Choiceform Atomemo Plugin.",
   "keywords": [
     "oclif"
@@ -30,7 +30,7 @@
     "check": "biome check --write",
     "prepack": "oclif manifest && oclif readme",
     "postpack": "shx rm -f oclif.manifest.json",
-    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "test": "mocha \"test/**/*.test.ts\"",
     "posttest": "npm run check",
     "version": "oclif readme && git add README.md"
   },
@@ -76,6 +76,7 @@
     "@types/node": "20.19.27",
     "chai": "4.5.0",
     "mocha": "10.8.2",
+    "msw": "^2.12.7",
     "oclif": "^4.22.65",
     "shx": "^0.4.0",
     "ts-node": "^10.9.2",

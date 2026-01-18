@@ -54,8 +54,14 @@ export default class AuthStatus extends Command {
       )
 
       this.log(colorize("greenBright", "✓ Authenticated\n"))
-      this.log(colorize("bold", colorize("gray", "Name    : ")), session.user.name)
-      this.log(colorize("bold", colorize("gray", "Email   : ")), session.user.email)
+      this.log(
+        colorize("bold", colorize("gray", "Name    : ")),
+        session.user.name,
+      )
+      this.log(
+        colorize("bold", colorize("gray", "Email   : ")),
+        session.user.email,
+      )
       this.log(
         colorize("bold", colorize("gray", "Updated : ")),
         this.formatDate(session.session.updatedAt),
@@ -67,11 +73,14 @@ export default class AuthStatus extends Command {
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error"
       this.log(colorize("red", `✗ Failed to fetch session: ${message}`))
-      process.exit(1)
+      this.exit(1)
     }
   }
 
-  private async fetchSession(endpoint: string, accessToken: string): Promise<Session> {
+  private async fetchSession(
+    endpoint: string,
+    accessToken: string,
+  ): Promise<Session> {
     const response = await fetch(`${endpoint}/v1/auth/get-session`, {
       headers: {
         "Content-Type": "application/json",

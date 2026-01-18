@@ -24,7 +24,7 @@ export default class PluginRefreshKey extends Command {
           "✗ You're not authenticated yet, please run 'atomemo auth login' first.",
         ),
       )
-      return process.exit(1)
+      return this.exit(1)
     }
 
     try {
@@ -43,7 +43,7 @@ export default class PluginRefreshKey extends Command {
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error"
       this.log(colorize("red", `✗ Failed to refresh debug API Key: ${message}`))
-      return process.exit(1)
+      return this.exit(1)
     }
   }
 
