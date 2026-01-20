@@ -2,6 +2,8 @@
 
 Choiceform Atomemo 平台的插件开发命令行工具。
 
+> **最后更新**: 2025-01-19
+
 ## 概述
 
 本项目是一个基于 [oclif](https://oclif.io/) 框架构建的 CLI 工具，用于创建、开发、打包和发布 Choiceform Atomemo 平台插件。
@@ -213,17 +215,18 @@ sequenceDiagram
 
 ## 模块详情
 
-各模块详细说明请参阅对应目录的 OVERVIEW.md:
+各模块详细说明请参阅对应目录的 README.md:
 
 | 目录 | 文档 |
 |------|------|
-| `src/` | [src/OVERVIEW.md](src/OVERVIEW.md) |
-| `src/commands/` | [src/commands/OVERVIEW.md](src/commands/OVERVIEW.md) |
-| `src/commands/auth/` | [src/commands/auth/OVERVIEW.md](src/commands/auth/OVERVIEW.md) |
-| `src/commands/plugin/` | [src/commands/plugin/OVERVIEW.md](src/commands/plugin/OVERVIEW.md) |
-| `src/templates/` | [src/templates/OVERVIEW.md](src/templates/OVERVIEW.md) |
-| `src/utils/` | [src/utils/OVERVIEW.md](src/utils/OVERVIEW.md) |
-| `test/` | [test/OVERVIEW.md](test/OVERVIEW.md) |
+| `src/` | [src/README.md](src/README.md) |
+| `src/commands/` | [src/commands/README.md](src/commands/README.md) |
+| `src/commands/auth/` | [src/commands/auth/README.md](src/commands/auth/README.md) |
+| `src/commands/plugin/` | [src/commands/plugin/README.md](src/commands/plugin/README.md) |
+| `src/utils/` | [src/utils/README.md](src/utils/README.md) |
+| `test/` | [test/README.md](test/README.md) |
+| `test/commands/` | [test/commands/README.md](test/commands/README.md) |
+| `test/utils/` | [test/utils/README.md](test/utils/README.md) |
 
 ## 设计模式
 
@@ -303,17 +306,18 @@ interface PluginGenerator {
 
 ### 测试完善
 
-- [ ] 添加 `auth login` 命令测试 (需 mock 网络)
-- [ ] 完善 `plugin init` 交互模式测试
-- [ ] 添加 `generator.ts` 单元测试
+- [ ] 添加 `auth login` 命令测试 (需 mock 网络和浏览器打开)
+- [ ] 完善 `plugin init` 交互模式测试 (需 mock 用户输入)
+- [x] 添加 `generator.ts` 单元测试 (已完成)
 - [ ] 添加集成测试验证完整流程
+- [ ] 添加 `auth` 命令组入口测试
 
 ### 代码改进
 
 - [ ] `views.ts` 已弃用，考虑移除
-- [ ] `plugin init` 的 `init.test.ts` 第二个测试断言为空，需修复
 - [ ] 考虑为 `TypeScriptPluginGenerator` 添加进度输出
 - [ ] 统一错误处理策略
+- [ ] 完善 `plugin init` 非交互模式的完整参数验证
 
 ### 文档
 

@@ -10,7 +10,7 @@
     "actions": {
       "recommended": true
     },
-    "includes": ["**", "!src/i18n"]
+    "includes": ["**", "!src/i18n/**"]
   },
   "formatter": {
     "enabled": true,
@@ -19,7 +19,7 @@
   },
   "linter": {
     "enabled": true,
-    "includes": ["**", "!src/i18n"],
+    "includes": ["**", "!src/i18n/**"],
     "rules": {
       "recommended": true
     }
