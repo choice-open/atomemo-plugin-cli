@@ -74,19 +74,27 @@ plugin/
    - 验证本地配置中是否存在 `access_token`
    - 未认证时提示用户先执行 `atomemo auth login`
 
-2. **获取 API Key**
+2. **获取用户会话信息**
+   - 调用 `/v1/auth/get-session` 获取当前用户会话
+   - 使用 Bearer Token 认证
+   - 处理 401 错误（令牌无效）
+   - 检查用户的 `inherentOrganizationId` 是否存在
+   - 如果 `inherentOrganizationId` 不存在，显示错误消息并提示用户去 Choiceform Discord 频道提交问题报告，然后退出
+
+3. **获取 API Key**
    - 调用 `/api/v1/debug_api_key` 获取调试 API Key
    - 使用 Bearer Token 认证
    - 处理 401 错误（令牌无效）
 
-3. **更新 .env 文件**
+4. **更新 .env 文件**
    - 检查当前目录是否存在 `.env` 文件
-   - 如果存在 `DEBUG_API_KEY`，替换其值
-   - 如果不存在，追加 `DEBUG_API_KEY=<api_key>`
+   - 如果存在 `DEBUG_API_KEY`，替换其值；否则追加
+   - 如果存在 `ORGANIZATION_ID`，替换其值；否则追加
    - 处理文件权限错误
 
-4. **显示结果**
+5. **显示结果**
    - 显示成功消息
+   - 显示 `DEBUG_API_KEY` 和 `ORGANIZATION_ID` 已更新的提示
    - 显示 API Key 预览（前4位 + ... + 后4位）
 
 **依赖关系**：
@@ -142,6 +150,13 @@ plugin/
 
 ## API 端点
 
+### OneAuth API
+
+- `GET /v1/auth/get-session` - 获取用户会话信息
+  - 认证：Bearer Token
+  - 返回：`{ user: { inherentOrganizationId?: string }, session: {...} }`
+  - 用途：获取用户的组织 ID
+
 ### Plugin Hub API
 
 - `GET /api/v1/debug_api_key` - 获取调试 API Key
@@ -153,7 +168,7 @@ plugin/
 
 - ✅ `index.ts` - 基础测试（显示帮助信息）
 - ✅ `init.ts` - 部分测试（非交互模式、名称验证）
-- ❌ `refresh-key.ts` - 无测试（需要 mock 网络请求）
+- ✅ `refresh-key.ts` - 全面测试覆盖（所有场景）
 - ❌ `checksum.ts` - 无测试（待实现）
 - ❌ `pack.ts` - 无测试（待实现）
 - ❌ `permission.ts` - 无测试（待实现）

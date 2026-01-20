@@ -73,15 +73,18 @@ plugin/
 **覆盖场景**：
 - ✅ 缺少访问令牌时显示错误提示
 - ✅ 访问令牌无效（401）时显示错误
-- ✅ 创建新的 .env 文件
+- ✅ `inherentOrganizationId` 不存在时提示去 Discord 频道
+- ✅ 创建新的 .env 文件（同时写入 `DEBUG_API_KEY` 和 `ORGANIZATION_ID`）
 - ✅ 更新现有的 `DEBUG_API_KEY`
-- ✅ 在现有文件追加 `DEBUG_API_KEY`（当不存在时）
-- ✅ 文件权限错误处理（EACCES）
+- ✅ 更新现有的 `ORGANIZATION_ID`
+- ✅ 在现有文件追加 `DEBUG_API_KEY` 和 `ORGANIZATION_ID`（当不存在时）
+- ✅ 正确掩码显示 API Key
 
 **技术细节**：
 - 使用 `setupServer` 创建 mock 服务器
-- Mock `/api/v1/debug_api_key` 端点
-- 验证 .env 文件内容
+- Mock `/v1/auth/get-session` 端点（获取用户会话）
+- Mock `/api/v1/debug_api_key` 端点（获取 API Key）
+- 验证 .env 文件内容（包含两个环境变量）
 
 ### 占位测试 (checksum/pack/permission/run)
 

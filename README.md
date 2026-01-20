@@ -7,8 +7,6 @@
 [![Downloads/week](https://img.shields.io/npm/dw/@choiceopen/atomemo-plugin-cli.svg)](https://npmjs.org/package/@choiceopen/atomemo-plugin-cli)
 [![License](https://img.shields.io/npm/l/@choiceopen/atomemo-plugin-cli.svg)](https://github.com/choice-open/atomemo-plugin-cli/blob/main/LICENSE)
 
-**Languages**: [English](README.md) | [简体中文](README.zh-CN.md)
-
 ## Features
 
 - 🔐 **Authentication**: Device authorization flow for secure login

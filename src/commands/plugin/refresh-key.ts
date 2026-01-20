@@ -28,15 +28,30 @@ export default class PluginRefreshKey extends Command {
     }
 
     try {
-      // Step 2: Fetch debug API Key
+      // Step 2: Fetch user session
+      const session = await this.fetchUserSession(config.auth.access_token)
+
+      // Step 3: Check inherentOrganizationId
+      if (!session.user.inherentOrganizationId) {
+        this.log(
+          colorize("red", "✗ An error occurred while processing your request."),
+        )
+        this.log("")
+        this.log("Please report this issue in the Choiceform Discord channel:")
+        this.log("https://discord.gg/udTZT6AN3q")
+        return this.exit(1)
+      }
+
+      // Step 4: Fetch debug API Key
       const apiKey = await this.fetchDebugApiKey(config.auth.access_token)
 
-      // Step 3: Manage .env file
-      await this.updateEnvFile(apiKey)
+      // Step 5: Manage .env file
+      await this.updateEnvFile(apiKey, session.user.inherentOrganizationId)
 
       // Display success message
       this.log(colorize("green", "✓ Debug API Key refreshed successfully"))
       this.log(colorize("green", "✓ DEBUG_API_KEY updated in .env file"))
+      this.log(colorize("green", "✓ ORGANIZATION_ID updated in .env file"))
       this.log("")
       this.log("Your debug API Key has been saved to .env file.")
       this.log(`Key preview: ${this.maskApiKey(apiKey)}`)
@@ -44,6 +59,39 @@ export default class PluginRefreshKey extends Command {
       const message = error instanceof Error ? error.message : "Unknown error"
       this.log(colorize("red", `✗ Failed to refresh debug API Key: ${message}`))
       return this.exit(1)
+    }
+  }
+
+  private async fetchUserSession(accessToken: string): Promise<{
+    user: { inherentOrganizationId?: string }
+  }> {
+    const config = await configStore.load()
+    assert(config.auth?.endpoint, "Auth endpoint is required")
+
+    const response = await fetch(
+      `${config.auth.endpoint}/v1/auth/get-session`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Choiceform (Atomemo Plugin CLI)",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    )
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error(
+          "Access token is invalid or expired, please login again",
+        )
+      }
+      throw new Error(
+        `API request failed: ${response.status} ${response.statusText}`,
+      )
+    }
+
+    return (await response.json()) as {
+      user: { inherentOrganizationId?: string }
     }
   }
 
@@ -83,33 +131,48 @@ export default class PluginRefreshKey extends Command {
     return data.api_key
   }
 
-  private async updateEnvFile(apiKey: string): Promise<void> {
+  private async updateEnvFile(
+    apiKey: string,
+    organizationId: string,
+  ): Promise<void> {
     const envPath = join(process.cwd(), ".env")
 
     try {
       // Check if .env file exists
       let envContent = ""
-      let existingKey = false
+      let existingApiKey = false
+      let existingOrgId = false
 
       try {
         envContent = await fs.readFile(envPath, "utf-8")
-        existingKey = envContent.includes("DEBUG_API_KEY=")
+        existingApiKey = envContent.includes("DEBUG_API_KEY=")
+        existingOrgId = envContent.includes("ORGANIZATION_ID=")
       } catch (_error) {
         // File doesn't exist, will create new file
       }
 
-      let newContent: string
+      let newContent: string = envContent
 
-      if (existingKey) {
-        // Replace existing DEBUG_API_KEY
-        newContent = envContent.replace(
+      // Update or add DEBUG_API_KEY
+      if (existingApiKey) {
+        newContent = newContent.replace(
           /^DEBUG_API_KEY=.*$/m,
           `DEBUG_API_KEY=${apiKey}`,
         )
       } else {
-        // Append new DEBUG_API_KEY
-        const separator = envContent && !envContent.endsWith("\n") ? "\n" : ""
-        newContent = `${envContent + separator}DEBUG_API_KEY=${apiKey}\n`
+        const separator = newContent && !newContent.endsWith("\n") ? "\n" : ""
+        newContent = `${newContent + separator}DEBUG_API_KEY=${apiKey}\n`
+      }
+
+      // Update or add ORGANIZATION_ID
+      if (existingOrgId) {
+        newContent = newContent.replace(
+          /^ORGANIZATION_ID=.*$/m,
+          `ORGANIZATION_ID=${organizationId}`,
+        )
+      } else {
+        const separator = newContent && !newContent.endsWith("\n") ? "\n" : ""
+        newContent = `${newContent + separator}ORGANIZATION_ID=${organizationId}\n`
       }
 
       await fs.writeFile(envPath, newContent, "utf-8")
