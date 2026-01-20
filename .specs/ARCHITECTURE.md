@@ -60,6 +60,13 @@ atomemo-plugin-cli/
 ### 命令执行流程
 
 ```mermaid
+---
+config:
+  theme: "neutral"
+  themeVariables:
+    fontFamily: Iosevka NFM
+    fontSize: 14
+---
 flowchart TB
     subgraph Entry["入口层"]
         BIN["bin/run.js"]
@@ -114,6 +121,13 @@ flowchart TB
 ### 模块依赖关系
 
 ```mermaid
+---
+config:
+  theme: "neutral"
+  themeVariables:
+    fontFamily: Iosevka NFM
+    fontSize: 14
+---
 flowchart LR
     subgraph Commands
         LOGIN["auth/login.ts"]
@@ -145,6 +159,13 @@ flowchart LR
 ### 插件初始化流程
 
 ```mermaid
+---
+config:
+  theme: "dark"
+  themeVariables:
+    fontFamily: Iosevka NFM
+    fontSize: 14
+---
 sequenceDiagram
     participant User
     participant CLI as plugin init
@@ -178,6 +199,13 @@ sequenceDiagram
 ### 设备授权登录流程
 
 ```mermaid
+---
+config:
+  theme: "dark"
+  themeVariables:
+    fontFamily: Iosevka NFM
+    fontSize: 14
+---
 sequenceDiagram
     participant User
     participant CLI as auth login
