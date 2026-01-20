@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `plugin refresh-key` command now fetches user session information from OneAuth API
+- `plugin refresh-key` command now writes `ORGANIZATION_ID` to `.env` file along with `DEBUG_API_KEY`
+- Error handling for missing `inherentOrganizationId` with user-friendly message directing to Discord support channel
+- Comprehensive test coverage for new functionality including session fetching and organization ID validation
+
+### Changed
+
+- `plugin refresh-key` command now validates user's `inherentOrganizationId` before fetching debug API key
+- `updateEnvFile` method now handles both `DEBUG_API_KEY` and `ORGANIZATION_ID` environment variables
+
+### Breaking Changes
+
+- `plugin refresh-key` command now requires `inherentOrganizationId` to be present in the user session. If it's missing, the command will exit with an error message directing users to the Choiceform Discord channel for support.
+
 ## [0.3.0] - 2026-01-20
 
 ### Added
