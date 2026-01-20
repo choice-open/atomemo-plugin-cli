@@ -1,7 +1,7 @@
 {
   "name": "<%= props.name %>",
   "type": "module",
-  "version": "<%= props.version %>",
+  "version": "0.1.0",
   "description": "<%= props.description %>",
   "author": "<%= props.author %> <<%= props.email %>>",
   "license": "MIT",
