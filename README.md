@@ -100,7 +100,7 @@ EXAMPLES
     $ atomemo auth login
 ```
 
-_See code: [src/commands/auth/login.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/auth/login.ts)_
+_See code: [src/commands/auth/login.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/auth/login.ts)_
 
 ## `atomemo auth status`
 
@@ -122,7 +122,7 @@ EXAMPLES
     $ atomemo auth status
 ```
 
-_See code: [src/commands/auth/status.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/auth/status.ts)_
+_See code: [src/commands/auth/status.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/auth/status.ts)_
 
 ## `atomemo autocomplete [SHELL]`
 
@@ -197,7 +197,7 @@ EXAMPLES
   $ atomemo plugin checksum
 ```
 
-_See code: [src/commands/plugin/checksum.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/checksum.ts)_
+_See code: [src/commands/plugin/checksum.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/checksum.ts)_
 
 ## `atomemo plugin init`
 
@@ -234,7 +234,7 @@ EXAMPLES
     $ atomemo plugin init
 ```
 
-_See code: [src/commands/plugin/init.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/init.ts)_
+_See code: [src/commands/plugin/init.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/init.ts)_
 
 ## `atomemo plugin pack [FILE]`
 
@@ -258,7 +258,7 @@ EXAMPLES
   $ atomemo plugin pack
 ```
 
-_See code: [src/commands/plugin/pack.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/pack.ts)_
+_See code: [src/commands/plugin/pack.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/pack.ts)_
 
 ## `atomemo plugin permission [FILE]`
 
@@ -282,7 +282,7 @@ EXAMPLES
   $ atomemo plugin permission
 ```
 
-_See code: [src/commands/plugin/permission.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/permission.ts)_
+_See code: [src/commands/plugin/permission.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/permission.ts)_
 
 ## `atomemo plugin refresh-key`
 
@@ -299,7 +299,7 @@ EXAMPLES
   $ atomemo plugin refresh-key
 ```
 
-_See code: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/refresh-key.ts)_
+_See code: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/refresh-key.ts)_
 
 ## `atomemo plugin run [FILE]`
 
@@ -323,7 +323,7 @@ EXAMPLES
   $ atomemo plugin run
 ```
 
-_See code: [src/commands/plugin/run.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/run.ts)_
+_See code: [src/commands/plugin/run.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/run.ts)_
 
 ## `atomemo version`
 

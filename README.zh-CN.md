@@ -100,7 +100,7 @@ EXAMPLES
     $ atomemo auth login
 ```
 
-_查看代码: [src/commands/auth/login.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/auth/login.ts)_
+_查看代码: [src/commands/auth/login.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/auth/login.ts)_
 
 ## `atomemo auth status`
 
@@ -122,7 +122,7 @@ EXAMPLES
     $ atomemo auth status
 ```
 
-_查看代码: [src/commands/auth/status.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/auth/status.ts)_
+_查看代码: [src/commands/auth/status.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/auth/status.ts)_
 
 ## `atomemo autocomplete [SHELL]`
 
@@ -197,7 +197,7 @@ EXAMPLES
   $ atomemo plugin checksum
 ```
 
-_查看代码: [src/commands/plugin/checksum.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/checksum.ts)_
+_查看代码: [src/commands/plugin/checksum.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/checksum.ts)_
 
 ## `atomemo plugin init`
 
@@ -234,7 +234,7 @@ EXAMPLES
     $ atomemo plugin init
 ```
 
-_查看代码: [src/commands/plugin/init.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/init.ts)_
+_查看代码: [src/commands/plugin/init.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/init.ts)_
 
 ## `atomemo plugin pack [FILE]`
 
@@ -258,7 +258,7 @@ EXAMPLES
   $ atomemo plugin pack
 ```
 
-_查看代码: [src/commands/plugin/pack.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/pack.ts)_
+_查看代码: [src/commands/plugin/pack.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/pack.ts)_
 
 ## `atomemo plugin permission [FILE]`
 
@@ -282,7 +282,7 @@ EXAMPLES
   $ atomemo plugin permission
 ```
 
-_查看代码: [src/commands/plugin/permission.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/permission.ts)_
+_查看代码: [src/commands/plugin/permission.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/permission.ts)_
 
 ## `atomemo plugin refresh-key`
 
@@ -299,7 +299,7 @@ EXAMPLES
   $ atomemo plugin refresh-key
 ```
 
-_查看代码: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/refresh-key.ts)_
+_查看代码: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/refresh-key.ts)_
 
 ## `atomemo plugin run [FILE]`
 
@@ -323,7 +323,7 @@ EXAMPLES
   $ atomemo plugin run
 ```
 
-_查看代码: [src/commands/plugin/run.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/run.ts)_
+_查看代码: [src/commands/plugin/run.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.3.0/src/commands/plugin/run.ts)_
 
 ## `atomemo version`
 
@@ -385,7 +385,7 @@ npm test
 
 - [架构文档](src/README.md)
 - [命令文档](src/commands/README.md)
-- [API 参考](ARCHITECTURE.md)
+- [Changelog](CHANGELOG.md)
 
 ## 许可证
 
