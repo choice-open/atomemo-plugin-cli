@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-01-20
+
+### Added
+
+- Comprehensive documentation structure with README files for all modules
+- Chinese language README (`README.zh-CN.md`) for better localization support
+- Module-level documentation:
+  - `src/README.md` – Architecture documentation
+  - `src/commands/README.md` – Command documentation
+  - `src/commands/auth/README.md` – Authentication commands documentation
+  - `src/commands/plugin/README.md` – Plugin commands documentation
+  - `src/utils/README.md` – Utility functions documentation
+  - `test/README.md` – Testing documentation
+  - `test/commands/README.md` – Command tests documentation
+  - `test/utils/README.md` – Utility tests documentation
+
+### Changed
+
+- Moved architecture documentation from `ARCHITECTURE.md` to `.specs/ARCHITECTURE.md`
+- Moved specification files from `specs/` to `.specs/` directory
+- Renamed template files to remove `.md` suffix:
+  - `LICENSE.md.eta` → `LICENSE.eta`
+  - `PRIVACY.md.eta` → `PRIVACY.eta`
+- Updated TypeScript template configuration files
+- Enhanced README with comprehensive command documentation
+
+### Removed
+
+- `AGENTS.md` – Agent guidelines (consolidated into other documentation)
+- `CLAUDE.md` – Claude Code guidelines (consolidated into other documentation)
+
 ## [0.2.1] - 2026-01-14
 
 ### Added
@@ -69,7 +100,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.1.3...v0.2.1
 [0.1.3]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.1.0...v0.1.3
 [0.1.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.0.1...v0.1.0

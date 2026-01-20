@@ -56,7 +56,7 @@ pnpm add -g @choiceopen/atomemo-plugin-cli
 $ atomemo COMMAND
 running command...
 $ atomemo (--version)
-@choiceopen/atomemo-plugin-cli/0.2.5 darwin-arm64 node-v24.13.0
+@choiceopen/atomemo-plugin-cli/0.3.0 darwin-arm64 node-v24.13.0
 $ atomemo --help [COMMAND]
 USAGE
   $ atomemo COMMAND
