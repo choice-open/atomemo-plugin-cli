@@ -69,8 +69,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/automation-plugin-cli/compare/v0.2.1...HEAD
-[0.2.1]: https://github.com/choice-open/automation-plugin-cli/compare/v0.1.3...v0.2.1
-[0.1.3]: https://github.com/choice-open/automation-plugin-cli/compare/v0.1.0...v0.1.3
-[0.1.0]: https://github.com/choice-open/automation-plugin-cli/compare/v0.0.1...v0.1.0
-[0.0.1]: https://github.com/choice-open/automation-plugin-cli/releases/tag/v0.0.1
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.1.3...v0.2.1
+[0.1.3]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.1.0...v0.1.3
+[0.1.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.0.1...v0.1.0
+[0.0.1]: https://github.com/choice-open/atomemo-plugin-cli/releases/tag/v0.0.1

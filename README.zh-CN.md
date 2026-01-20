@@ -3,9 +3,9 @@
 > 用于构建和发布 Choiceform Atomemo 插件的命令行工具。
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/@choiceopen/automation-plugin-cli.svg)](https://npmjs.org/package/@choiceopen/automation-plugin-cli)
-[![Downloads/week](https://img.shields.io/npm/dw/@choiceopen/automation-plugin-cli.svg)](https://npmjs.org/package/@choiceopen/automation-plugin-cli)
-[![License](https://img.shields.io/npm/l/@choiceopen/automation-plugin-cli.svg)](https://github.com/choice-open/automation-plugin-cli/blob/main/LICENSE)
+[![Version](https://img.shields.io/npm/v/@choiceopen/atomemo-plugin-cli.svg)](https://npmjs.org/package/@choiceopen/atomemo-plugin-cli)
+[![Downloads/week](https://img.shields.io/npm/dw/@choiceopen/atomemo-plugin-cli.svg)](https://npmjs.org/package/@choiceopen/atomemo-plugin-cli)
+[![License](https://img.shields.io/npm/l/@choiceopen/atomemo-plugin-cli.svg)](https://github.com/choice-open/atomemo-plugin-cli/blob/main/LICENSE)
 
 **语言**: [English](README.md) | [简体中文](README.zh-CN.md)
 
@@ -20,17 +20,17 @@
 ## 安装
 
 ```bash
-npm install -g @choiceopen/automation-plugin-cli
+npm install -g @choiceopen/atomemo-plugin-cli
 ```
 
 或使用其他包管理器：
 
 ```bash
 # 使用 yarn
-yarn global add @choiceopen/automation-plugin-cli
+yarn global add @choiceopen/atomemo-plugin-cli
 
 # 使用 pnpm
-pnpm add -g @choiceopen/automation-plugin-cli
+pnpm add -g @choiceopen/atomemo-plugin-cli
 ```
 
 ## 快速开始
@@ -56,7 +56,7 @@ pnpm add -g @choiceopen/automation-plugin-cli
 $ atomemo COMMAND
 running command...
 $ atomemo (--version)
-@choiceopen/automation-plugin-cli/0.2.5 darwin-arm64 node-v24.13.0
+@choiceopen/atomemo-plugin-cli/0.2.5 darwin-arm64 node-v24.13.0
 $ atomemo --help [COMMAND]
 USAGE
   $ atomemo COMMAND
@@ -100,7 +100,7 @@ EXAMPLES
     $ atomemo auth login
 ```
 
-_查看代码: [src/commands/auth/login.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.5/src/commands/auth/login.ts)_
+_查看代码: [src/commands/auth/login.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/auth/login.ts)_
 
 ## `atomemo auth status`
 
@@ -122,7 +122,7 @@ EXAMPLES
     $ atomemo auth status
 ```
 
-_查看代码: [src/commands/auth/status.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.5/src/commands/auth/status.ts)_
+_查看代码: [src/commands/auth/status.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/auth/status.ts)_
 
 ## `atomemo autocomplete [SHELL]`
 
@@ -197,7 +197,7 @@ EXAMPLES
   $ atomemo plugin checksum
 ```
 
-_查看代码: [src/commands/plugin/checksum.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.5/src/commands/plugin/checksum.ts)_
+_查看代码: [src/commands/plugin/checksum.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/checksum.ts)_
 
 ## `atomemo plugin init`
 
@@ -234,7 +234,7 @@ EXAMPLES
     $ atomemo plugin init
 ```
 
-_查看代码: [src/commands/plugin/init.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.5/src/commands/plugin/init.ts)_
+_查看代码: [src/commands/plugin/init.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/init.ts)_
 
 ## `atomemo plugin pack [FILE]`
 
@@ -258,7 +258,7 @@ EXAMPLES
   $ atomemo plugin pack
 ```
 
-_查看代码: [src/commands/plugin/pack.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.5/src/commands/plugin/pack.ts)_
+_查看代码: [src/commands/plugin/pack.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/pack.ts)_
 
 ## `atomemo plugin permission [FILE]`
 
@@ -282,7 +282,7 @@ EXAMPLES
   $ atomemo plugin permission
 ```
 
-_查看代码: [src/commands/plugin/permission.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.5/src/commands/plugin/permission.ts)_
+_查看代码: [src/commands/plugin/permission.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/permission.ts)_
 
 ## `atomemo plugin refresh-key`
 
@@ -299,7 +299,7 @@ EXAMPLES
   $ atomemo plugin refresh-key
 ```
 
-_查看代码: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.5/src/commands/plugin/refresh-key.ts)_
+_查看代码: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/refresh-key.ts)_
 
 ## `atomemo plugin run [FILE]`
 
@@ -323,7 +323,7 @@ EXAMPLES
   $ atomemo plugin run
 ```
 
-_查看代码: [src/commands/plugin/run.ts](https://github.com/choice-open/automation-plugin-cli/blob/v0.2.5/src/commands/plugin/run.ts)_
+_查看代码: [src/commands/plugin/run.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.2.5/src/commands/plugin/run.ts)_
 
 ## `atomemo version`
 
@@ -355,8 +355,8 @@ _查看代码: [@oclif/plugin-version](https://github.com/oclif/plugin-version/b
 
 ```bash
 # 克隆仓库
-git clone https://github.com/choice-open/automation-plugin-cli.git
-cd automation-plugin-cli
+git clone https://github.com/choice-open/atomemo-plugin-cli.git
+cd atomemo-plugin-cli
 
 # 安装依赖
 npm install
@@ -397,6 +397,6 @@ MIT © [Choiceform](https://github.com/choice-open)
 
 ## 支持
 
-- 📖 [文档](https://github.com/choice-open/automation-plugin-cli)
-- 🐛 [问题追踪](https://github.com/choice-open/automation-plugin-cli/issues)
-- 💬 [讨论](https://github.com/choice-open/automation-plugin-cli/discussions)
+- 📖 [文档](https://github.com/choice-open/atomemo-plugin-cli)
+- 🐛 [问题追踪](https://github.com/choice-open/atomemo-plugin-cli/issues)
+- 💬 [讨论](https://github.com/choice-open/atomemo-plugin-cli/discussions)

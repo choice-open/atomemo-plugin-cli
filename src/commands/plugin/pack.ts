@@ -18,7 +18,7 @@ export default class PluginPack extends Command {
 
     const name = flags.name ?? "world"
     this.log(
-      `hello ${name} from /Users/nightire/Code/github.com/choice-open/automation-plugin-cli/src/commands/plugin/pack.ts`,
+      `hello ${name} from /Users/nightire/Code/github.com/choice-open/atomemo-plugin-cli/src/commands/plugin/pack.ts`,
     )
     if (args.file && flags.force) {
       this.log(`you input --force and --file: ${args.file}`)

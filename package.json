@@ -1,15 +1,15 @@
 {
-  "name": "@choiceopen/automation-plugin-cli",
+  "name": "@choiceopen/atomemo-plugin-cli",
   "version": "0.2.5",
   "description": "A command-line utility for building and publishing Choiceform Atomemo Plugin.",
   "keywords": [
     "oclif"
   ],
-  "homepage": "https://github.com/choice-open/automation-plugin-cli",
-  "bugs": "https://github.com/choice-open/automation-plugin-cli/issues",
+  "homepage": "https://github.com/choice-open/atomemo-plugin-cli",
+  "bugs": "https://github.com/choice-open/atomemo-plugin-cli/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/choice-open/automation-plugin-cli.git"
+    "url": "git+https://github.com/choice-open/atomemo-plugin-cli.git"
   },
   "license": "MIT",
   "author": "Albert Yu",
