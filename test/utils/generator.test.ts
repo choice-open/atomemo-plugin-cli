@@ -95,7 +95,7 @@ describe("generator", () => {
       expect(gitignoreExists).to.be.true
 
       const licenseExists = await fs
-        .access(join(targetDir, "LICENSE.md"))
+        .access(join(targetDir, "LICENSE"))
         .then(() => true)
         .catch(() => false)
       expect(licenseExists).to.be.true
@@ -150,8 +150,8 @@ describe("generator", () => {
       expect(packageJson).to.contain('"name": "test-plugin"')
       expect(packageJson).to.contain('"author": "John Doe <john@example.com>"')
 
-      // 验证 LICENSE.md 中的变量替换
-      const license = await fs.readFile(join(targetDir, "LICENSE.md"), "utf-8")
+      // 验证 LICENSE 中的变量替换
+      const license = await fs.readFile(join(targetDir, "LICENSE"), "utf-8")
       expect(license).to.contain("2025")
       expect(license).to.contain("John Doe")
     })
