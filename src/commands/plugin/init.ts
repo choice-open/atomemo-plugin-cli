@@ -1,3 +1,4 @@
+import fs from "node:fs/promises"
 import path from "node:path"
 import input from "@inquirer/input"
 import select from "@inquirer/select"
@@ -73,6 +74,21 @@ export default class PluginInit extends Command {
     assert(flags.name, "flags.name should be valid here...")
     assert(flags.language, "flags.language should be valid here...")
 
+    // 检查插件文件夹是否已存在
+    const folderExists = await this.checkPluginFolderExists(flags.name)
+    if (folderExists) {
+      this.log(
+        colorize(
+          "redBright",
+          dedent`
+            ✗ Error: A folder named "${flags.name}" already exists in the current directory.
+            Please choose a different plugin name or remove the existing folder.
+          `,
+        ),
+      )
+      this.exit(1)
+    }
+
     // Fetch user session to get author and email
     let author = ""
     let email = ""
@@ -130,6 +146,16 @@ export default class PluginInit extends Command {
     )
   }
 
+  private async checkPluginFolderExists(name: string): Promise<boolean> {
+    try {
+      const targetPath = path.join(process.cwd(), name)
+      const stats = await fs.stat(targetPath)
+      return stats.isDirectory()
+    } catch (_error) {
+      return false
+    }
+  }
+
   private nameIsValid(name: unknown) {
     return isString(name) && /^[a-z][a-z0-9_-]{2,62}[a-z0-9]$/.test(name)
   }
@@ -153,14 +179,32 @@ export default class PluginInit extends Command {
     }
   }
 
-  private async runInteractiveMode(flags: CommandFlags) {
+  private async runInteractiveMode(flags: CommandFlags): Promise<void> {
     this.log(dedent`
       Guiding you through creating a new plugin in interactive mode
-      Please follow the instructions below to complete the process:\n
+      Please follow the instructions below to complete the process:
+
     `)
 
     try {
       flags.name = await this.collectName()
+
+      // 检查插件文件夹是否已存在
+      const folderExists = await this.checkPluginFolderExists(flags.name)
+      if (folderExists) {
+        this.log(
+          colorize(
+            "redBright",
+            dedent`
+              ✗ Error: A folder named "${flags.name}" already exists in the current directory.
+              Please choose a different plugin name.
+            `,
+          ),
+        )
+        // 重新收集名称
+        return this.runInteractiveMode(flags)
+      }
+
       flags.description = await this.collectDescription()
       flags.url = await this.collectURL(flags.name)
       flags.language = await this.collectLanguage()
