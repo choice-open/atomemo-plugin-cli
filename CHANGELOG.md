@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.5] - 2026-01-21
+
+### Fixed
+
+- 修复模板中 `repo` 字段缺少引号的问题
+
+### Changed
+
+- 更新 README.md，添加完整的命令文档
+
+## [0.5.4] - 2026-01-21
+
+### Changed
+
+- 更新 README.md，添加完整的命令文档
+- 提升版本号至 0.5.4
+
 ## [0.5.3] - 2026-01-21
 
 ### Changed
@@ -162,7 +179,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.3...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.5...HEAD
+[0.5.5]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.4...v0.5.5
+[0.5.4]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.3...v0.5.4
 [0.5.3]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.0...v0.5.1
