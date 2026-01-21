@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.3] - 2026-01-21
+
+### Changed
+
+- 重命名 SDK 从 `@choiceopen/automation-plugin-sdk-js` 到 `@choiceopen/atomemo-plugin-sdk-js`
+- 优化插件初始化命令交互流程
+- 简化 package.json 模板配置
+- 增强会话管理和认证机制
+- 更新插件元数据配置选项
+
 ## [0.5.2] - 2026-01-21
 
 ### Fixed
@@ -152,7 +162,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.2...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.3...HEAD
+[0.5.3]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.4.0...v0.5.0
