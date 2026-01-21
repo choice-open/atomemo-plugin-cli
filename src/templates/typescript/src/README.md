@@ -18,7 +18,7 @@
 
 ## 架构
 
-插件基于 `@choiceopen/automation-plugin-sdk-js` SDK 构建，采用模块化设计：
+插件基于 `@choiceopen/atomemo-plugin-sdk-js` SDK 构建，采用模块化设计：
 - 工具独立定义
 - 通过统一的国际化系统提供多语言支持
 - 所有组件通过插件实例统一注册和管理

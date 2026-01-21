@@ -6,13 +6,7 @@
   "author": "<%= props.author %> <<%= props.email %>>",
   "license": "MIT",
   "homepage": "<%= props.url ? props.url + '#readme' : '' %>",
-  "repository": {
-    "type": "git",
-    "url": "<%= props.url ? props.url + '.git' : '' %>"
-  },
-  "bugs": {
-    "url": "<%= props.url ? props.url + '/issues' : '' %>"
-  },
+  "repository":  "<%= props.url ? props.url : '' %>",
   "exports": {
     ".": {
       "development": "./src/index.ts",

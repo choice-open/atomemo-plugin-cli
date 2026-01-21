@@ -162,7 +162,7 @@ export default class PluginInit extends Command {
     try {
       flags.name = await this.collectName()
       flags.description = await this.collectDescription()
-      flags.url = await this.collectURL()
+      flags.url = await this.collectURL(flags.name)
       flags.language = await this.collectLanguage()
     } catch (error) {
       if (error instanceof Error && error.name === "ExitPromptError") {
@@ -199,15 +199,17 @@ export default class PluginInit extends Command {
     })
   }
 
-  private async collectURL() {
+  private async collectURL(name: string) {
     return await input({
       message: "What is the repository URL address (Optional):",
-      default: "https://github.com/[user]/[repo]",
+      default: `https://github.com/choice-open/atomemo-official-plugins/plugins/${name}`,
       prefill: "tab",
       validate: (value) => {
+        if (value === "") {
+          return true
+        }
         const { success } = z
           .url({ normalize: true, protocol: /https?|git/ })
-          .optional()
           .safeParse(value)
         return success || "You must provide a valid URL"
       },

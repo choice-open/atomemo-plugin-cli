@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest"
 
 // Mock the SDK before importing anything that uses it
-vi.mock("@choiceopen/automation-plugin-sdk-js", () => ({
+vi.mock("@choiceopen/atomemo-plugin-sdk-js", () => ({
   createPlugin: vi.fn(() => ({
     addCredential: vi.fn(),
     addTool: vi.fn(),
@@ -23,7 +23,7 @@ vi.mock("./i18n/i18n-util.async", () => ({
   loadAllLocalesAsync: vi.fn(),
 }))
 
-import { createPlugin } from "@choiceopen/automation-plugin-sdk-js"
+import { createPlugin } from "@choiceopen/atomemo-plugin-sdk-js"
 
 describe("createPlugin", () => {
   it("should create a plugin object", () => {

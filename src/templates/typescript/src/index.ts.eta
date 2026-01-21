@@ -1,4 +1,4 @@
-import { createPlugin } from "@choiceopen/automation-plugin-sdk-js"
+import { createPlugin } from "@choiceopen/atomemo-plugin-sdk-js"
 import packageJSON from "../package.json"
 import { t } from "./i18n/i18n-node"
 import { locales } from "./i18n/i18n-util"
@@ -12,10 +12,8 @@ const plugin = createPlugin({
   display_name: t("PLUGIN_DISPLAY_NAME"),
   description: t("PLUGIN_DESCRIPTION"),
   icon: "🎛️",
-  author: "Choiceform",
-  email: "support@choiceform.com",
   version: packageJSON.version,
-  repo: "https://github.com/choice-open/automation-official-plugins/plugins/testing-plugin",
+  repo: <%= props.url %>,
   locales,
   transporterOptions: {},
 })
