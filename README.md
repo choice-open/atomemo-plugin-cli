@@ -98,7 +98,7 @@ EXAMPLES
     $ atomemo auth login
 ```
 
-_See code: [src/commands/auth/login.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.4.0/src/commands/auth/login.ts)_
+_See code: [src/commands/auth/login.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.5.0/src/commands/auth/login.ts)_
 
 ## `atomemo auth status`
 
@@ -120,7 +120,7 @@ EXAMPLES
     $ atomemo auth status
 ```
 
-_See code: [src/commands/auth/status.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.4.0/src/commands/auth/status.ts)_
+_See code: [src/commands/auth/status.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.5.0/src/commands/auth/status.ts)_
 
 ## `atomemo autocomplete [SHELL]`
 
@@ -195,7 +195,7 @@ EXAMPLES
   $ atomemo plugin checksum
 ```
 
-_See code: [src/commands/plugin/checksum.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.4.0/src/commands/plugin/checksum.ts)_
+_See code: [src/commands/plugin/checksum.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.5.0/src/commands/plugin/checksum.ts)_
 
 ## `atomemo plugin init`
 
@@ -204,22 +204,15 @@ Initialize a new plugin with step-by-step interactive instructions.
 ```
 USAGE
   $ atomemo plugin init [-i] [-n my-awesome-plugin] [-d Descriptive text...]
-    [-a John Doe] [-e john.doe@example.com] [-u <value>] [--locales en_US|zh_Hans|ja_JP...] [-l
-    elixir|python|typescript] [-t extension|llm|tool|trigger]
+    [-u <value>] [-l elixir|python|typescript]
 
 FLAGS
-  -a, --author=John Doe                  Author name
   -d, --description=Descriptive text...  Short description
-  -e, --email=john.doe@example.com       Author email address
   -i, --[no-]interactive                 Use interactive mode (by default)
   -l, --language=<option>                Programming language to use for plugin development
                                          <options: elixir|python|typescript>
   -n, --name=my-awesome-plugin           Plugin name
-  -t, --type=<option>                    Plugin type
-                                         <options: extension|llm|tool|trigger>
   -u, --url=<value>                      Repository URL
-      --locales=<option>...              Provide READMEs in which languages
-                                         <options: en_US|zh_Hans|ja_JP>
 
 DESCRIPTION
   Initialize a new plugin with step-by-step interactive instructions.
@@ -232,7 +225,7 @@ EXAMPLES
     $ atomemo plugin init
 ```
 
-_See code: [src/commands/plugin/init.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.4.0/src/commands/plugin/init.ts)_
+_See code: [src/commands/plugin/init.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.5.0/src/commands/plugin/init.ts)_
 
 ## `atomemo plugin pack [FILE]`
 
@@ -256,7 +249,7 @@ EXAMPLES
   $ atomemo plugin pack
 ```
 
-_See code: [src/commands/plugin/pack.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.4.0/src/commands/plugin/pack.ts)_
+_See code: [src/commands/plugin/pack.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.5.0/src/commands/plugin/pack.ts)_
 
 ## `atomemo plugin permission [FILE]`
 
@@ -280,7 +273,7 @@ EXAMPLES
   $ atomemo plugin permission
 ```
 
-_See code: [src/commands/plugin/permission.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.4.0/src/commands/plugin/permission.ts)_
+_See code: [src/commands/plugin/permission.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.5.0/src/commands/plugin/permission.ts)_
 
 ## `atomemo plugin refresh-key`
 
@@ -297,7 +290,7 @@ EXAMPLES
   $ atomemo plugin refresh-key
 ```
 
-_See code: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.4.0/src/commands/plugin/refresh-key.ts)_
+_See code: [src/commands/plugin/refresh-key.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.5.0/src/commands/plugin/refresh-key.ts)_
 
 ## `atomemo plugin run [FILE]`
 
@@ -321,7 +314,7 @@ EXAMPLES
   $ atomemo plugin run
 ```
 
-_See code: [src/commands/plugin/run.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.4.0/src/commands/plugin/run.ts)_
+_See code: [src/commands/plugin/run.ts](https://github.com/choice-open/atomemo-plugin-cli/blob/v0.5.0/src/commands/plugin/run.ts)_
 
 ## `atomemo version`
 

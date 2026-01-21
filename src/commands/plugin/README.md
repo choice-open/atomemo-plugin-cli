@@ -33,20 +33,12 @@ plugin/
 1. 收集插件信息：
    - `name` - 插件名称（4-64字符，小写字母开头，正则：`/^[a-z][a-z0-9_-]{2,62}[a-z0-9]$/`）
    - `description` - 简短描述（16-256字符）
-   - `author` - 作者名称（2-64字符）
-   - `email` - 作者邮箱（邮箱格式验证）
    - `url` - 仓库地址（可选，URL 格式验证）
-   - `locales` - 支持的语言（多选，`en_US` 必选）
    - `language` - 开发语言（单选：elixir/python/typescript）
-   - `type` - 插件类型（单选：extension/llm/tool/trigger）
 
-2. **插件类型说明**：
-   | 类型 | 值 | 用途 |
-   |------|-----|------|
-   | Extension | `extension` | 集成外部 API 扩展平台能力 |
-   | Model (LLM) | `llm` | 引入更多大语言模型 |
-   | Tool | `tool` | 执行特定任务，供 LLM/Agent 调用 |
-   | Trigger | `trigger` | 通过 Webhook 接收事件启动工作流 |
+2. **自动获取用户信息**：
+   - `author` 和 `email` 通过调用 `/v1/auth/get-session` API 自动获取
+   - 如果获取失败（未登录或 token 无效），提示用户执行 `atomemo auth login` 并退出
 
 3. **非交互模式**：
    - 通过命令行 flags 提供所有必需信息
@@ -54,12 +46,15 @@ plugin/
    - 如果未提供有效信息且禁用交互模式，显示错误并退出
 
 4. **代码生成**：
+   - 在生成代码前，调用 `fetchSession()` 获取用户信息
+   - 将 `user.name` 作为 `author`，`user.email` 作为 `email` 添加到 props
    - 使用 `createPluginGenerator()` 创建生成器
    - 添加时间戳和日期信息到 props
    - 调用 `generator.generate()` 生成项目文件
 
 **依赖关系**：
 - `../../utils/generator.js` - 代码生成器
+- `../../utils/config.js` - 配置加载（获取 access_token）
 - `../../utils/theme.js` - 交互主题
 - `@inquirer/*` - 交互式输入组件
 - `zod` - URL 验证
@@ -154,8 +149,10 @@ plugin/
 
 - `GET /v1/auth/get-session` - 获取用户会话信息
   - 认证：Bearer Token
-  - 返回：`{ user: { inherentOrganizationId?: string }, session: {...} }`
-  - 用途：获取用户的组织 ID
+  - 返回：`{ user: { name: string, email: string, inherentOrganizationId?: string }, session: {...} }`
+  - 用途：
+    - `init.ts` 中用于获取 `author` 和 `email`
+    - `refresh-key.ts` 中用于获取用户的组织 ID
 
 ### Plugin Hub API
 

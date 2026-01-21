@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-01-21
+
+### Added
+
+- `plugin init` command now automatically fetches author name and email from authenticated user session
+
+### Changed
+
+- `plugin init` command now requires authentication before generating templates
+- Removed interactive prompts for author name and email (now automatically populated from session)
+- Removed command-line flags: `--author`, `--email`, `--locales`, `--type`
+- Simplified template generation workflow by removing redundant user inputs
+- Updated template documents structure (moved `src/README.md.eta` to `src/README.md`)
+
+### Breaking Changes
+
+- `plugin init` command now requires a valid authenticated session. Users must run `auth login` before using this command.
+- Command-line flags (`--author`, `--email`, `--locales`, `--type`) have been removed and will no longer be accepted.
+
+## [0.4.0] - 2026-01-20
+
 ### Added
 
 - `plugin refresh-key` command now fetches user session information from OneAuth API
@@ -116,7 +137,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.1.3...v0.2.1
 [0.1.3]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.1.0...v0.1.3

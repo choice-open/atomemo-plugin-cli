@@ -52,7 +52,11 @@ plugin/
 **非交互式完整参数**：
 - ✅ 提供有效名称时自动禁用交互模式
 - ✅ 验证插件目录已创建
-- ✅ 支持 `--type` flag
+- ✅ 支持 `--description` / `--url` flag
+
+**认证依赖**：
+- ✅ 会 mock `/v1/auth/get-session` 获取 `author/email`
+- ✅ 未登录/令牌无效/接口失败时提示执行 `atomemo auth login` 并退出
 
 **名称验证规则**：
 - ✅ 接受小写字母和数字
@@ -61,7 +65,7 @@ plugin/
 
 **缺失测试**：
 - ❌ 完整交互流程（需要 mock 用户输入）
-- ❌ 非交互式完整参数组合（所有 flags）
+- ❌ 非交互式“更复杂参数组合”的覆盖（可按需补充）
 
 ### `refresh-key.test.ts` - 刷新 API Key 测试
 

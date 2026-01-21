@@ -1,5 +1,4 @@
 import path from "node:path"
-import checkbox from "@inquirer/checkbox"
 import input from "@inquirer/input"
 import select from "@inquirer/select"
 import { Command, Flags } from "@oclif/core"
@@ -8,12 +7,12 @@ import { colorize } from "@oclif/core/ux"
 import { assert, isString } from "es-toolkit"
 import { dedent } from "ts-dedent"
 import z from "zod"
+import * as configStore from "../../utils/config.js"
 import { createPluginGenerator } from "../../utils/generator.js"
-import { checkboxTheme, selectTheme } from "../../utils/theme.js"
+import { selectTheme } from "../../utils/theme.js"
 
 type CommandFlags = OutputFlags<typeof PluginInit.flags>
 
-const LOCALES = ["en_US", "zh_Hans", "ja_JP"]
 const LANGUAGES = ["elixir", "python", "typescript"]
 
 export default class PluginInit extends Command {
@@ -48,29 +47,10 @@ export default class PluginInit extends Command {
       helpValue: "Descriptive text...",
       summary: "Short description",
     }),
-    author: Flags.string({
-      char: "a",
-      default: "",
-      helpValue: "John Doe",
-      summary: "Author name",
-    }),
-    email: Flags.string({
-      char: "e",
-      default: "",
-      helpValue: "john.doe@example.com",
-      summary: "Author email address",
-    }),
     url: Flags.string({
       char: "u",
       default: "",
       summary: "Repository URL",
-    }),
-    locales: Flags.option({
-      multiple: true,
-      options: LOCALES,
-    })({
-      delimiter: ",",
-      summary: "Provide READMEs in which languages",
     }),
     language: Flags.option({
       multiple: false,
@@ -78,13 +58,6 @@ export default class PluginInit extends Command {
     })({
       char: "l",
       summary: "Programming language to use for plugin development",
-    }),
-    type: Flags.option({
-      multiple: false,
-      options: ["extension", "llm", "tool", "trigger"],
-    })({
-      char: "t",
-      summary: "Plugin type",
     }),
   }
 
@@ -100,9 +73,33 @@ export default class PluginInit extends Command {
     assert(flags.name, "flags.name should be valid here...")
     assert(flags.language, "flags.language should be valid here...")
 
+    // Fetch user session to get author and email
+    let author = ""
+    let email = ""
+    try {
+      const session = await this.fetchSession()
+      author = session.user.name
+      email = session.user.email
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error"
+      this.log(
+        colorize(
+          "redBright",
+          dedent`
+            ✗ Failed to fetch user session: ${message}
+            
+            Please execute ${colorize("blue", "atomemo auth login")} to authenticate and try again.
+          `,
+        ),
+      )
+      this.exit(1)
+    }
+
     const generator = createPluginGenerator(flags.language, {
       props: {
         ...flags,
+        author,
+        email,
         createdAt: new Date().toISOString(),
         date: new Date().toISOString().slice(0, 10),
         year: new Date().getFullYear().toString(),
@@ -165,12 +162,8 @@ export default class PluginInit extends Command {
     try {
       flags.name = await this.collectName()
       flags.description = await this.collectDescription()
-      flags.author = await this.collectAuthor()
-      flags.email = await this.collectEmail()
       flags.url = await this.collectURL()
-      flags.locales = await this.collectLocales(flags)
       flags.language = await this.collectLanguage()
-      flags.type = await this.collectType()
     } catch (error) {
       if (error instanceof Error && error.name === "ExitPromptError") {
         process.exit(0)
@@ -206,30 +199,6 @@ export default class PluginInit extends Command {
     })
   }
 
-  private async collectAuthor() {
-    return await input({
-      message: "Who is the author of the new plugin:",
-      default: "John Doe",
-      prefill: "tab",
-      pattern: /^.{2,64}$/,
-      patternError: dedent`
-        You must provide the author name:
-          - Allows any characters, minimum 2 characters, maximum 64 characters
-      `,
-    })
-  }
-
-  private async collectEmail() {
-    return await input({
-      message: "What is the email address of the author:",
-      default: "john.doe@example.com",
-      prefill: "tab",
-      pattern:
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})*$/,
-      patternError: dedent`You must provide the author email`,
-    })
-  }
-
   private async collectURL() {
     return await input({
       message: "What is the repository URL address (Optional):",
@@ -245,46 +214,16 @@ export default class PluginInit extends Command {
     })
   }
 
-  private async collectLocales(flags: CommandFlags) {
-    const values = await checkbox({
-      choices: [
-        {
-          checked: flags.locales?.includes("en_US"),
-          disabled: "(required)",
-          name: "English",
-          description: "English (United States)",
-          value: "en_US",
-        },
-        {
-          checked: flags.locales?.includes("zh_Hans"),
-          disabled: false,
-          name: "简体中文",
-          description: "Simplified Chinese (China)",
-          value: "zh_Hans",
-        },
-        {
-          checked: flags.locales?.includes("ja_JP"),
-          disabled: false,
-          name: "日本語",
-          description: "Japanese (Japan)",
-          value: "ja_JP",
-        },
-      ],
-      message: "Provide READMEs in which language(s)?",
-      theme: checkboxTheme,
-    })
-
-    return ["en_US", ...values]
-  }
-
   private async collectLanguage() {
     return await select({
       choices: [
         {
+          disabled: true,
           name: "Elixir",
           value: "elixir",
         },
         {
+          disabled: true,
           name: "Python",
           value: "python",
         },
@@ -299,44 +238,55 @@ export default class PluginInit extends Command {
     })
   }
 
-  private async collectType() {
-    return await select({
-      choices: [
-        {
-          name: "Extension",
-          value: "extension",
-          description: "Extend capabilities by integrating with external APIs.",
-        },
-        {
-          name: "Model",
-          value: "llm",
-          description: "Introduce more LLMs to enhance AI capabilities.",
-        },
-        {
-          name: "Tool",
-          value: "tool",
-          description: "Complete specific tasks, typically invoked by LLMs.",
-        },
-        {
-          name: "Trigger",
-          value: "trigger",
-          description: "Run workflows by receiving events through webhooks.",
-        },
-      ],
-      message: dedent`
-        ${colorize("blue", "Choose the type of the new plugin")}
+  private async fetchSession(): Promise<{
+    user: {
+      name: string
+      email: string
+    }
+    session: {
+      updatedAt: string
+      expiresAt: string
+    }
+  }> {
+    const config = await configStore.load()
 
-        Plugins can extend the platform's capabilities in multiple ways, making workflows more flexible and powerful.
-        Based on your specific requirement, plugins can be categorized into the following types:
+    if (!config.auth?.access_token) {
+      throw new Error("Access token not found")
+    }
 
-          - ${colorize("yellowBright", "Extension")}: Provide more functionality to workflows by integrating external service APIs
-          - ${colorize("yellowBright", "Model")}:     Access more large language models to enrich the AI capabilities of workflows
-          - ${colorize("yellowBright", "Tool")}:      Customized logic to perform specific tasks, typically invoked by LLMs and/or Agents
-          - ${colorize("yellowBright", "Trigger")}:   Receive external events through webhooks to start workflows with initial input data
+    assert(config.auth?.endpoint, "Auth endpoint is required")
 
-        Please select the matching type from the following options:
-      `,
-      theme: selectTheme,
-    })
+    const response = await fetch(
+      `${config.auth.endpoint}/v1/auth/get-session`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Choiceform (Atomemo Plugin CLI)",
+          Authorization: `Bearer ${config.auth.access_token}`,
+        },
+      },
+    )
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error(
+          "Access token is invalid or expired, please login again",
+        )
+      }
+      throw new Error(
+        `API request failed: ${response.status} ${response.statusText}`,
+      )
+    }
+
+    return (await response.json()) as {
+      user: {
+        name: string
+        email: string
+      }
+      session: {
+        updatedAt: string
+        expiresAt: string
+      }
+    }
   }
 }
