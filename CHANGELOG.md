@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-01-21
+
+### Changed
+
+- Updated template package URLs to use `props.url` instead of constructing from `props.author` and `props.name`
+- Changed `@choiceopen/atomemo-plugin-sdk-js` dependency version from `^0.1.0` to `latest` in template
+- Updated template architecture documentation to reflect SDK name change from `automation` to `atomemo`
+
 ## [0.5.0] - 2026-01-21
 
 ### Added
@@ -137,7 +145,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.2.1...v0.3.0
