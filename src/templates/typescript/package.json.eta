@@ -5,13 +5,13 @@
   "description": "<%= props.description %>",
   "author": "<%= props.author %> <<%= props.email %>>",
   "license": "MIT",
-  "homepage": "https://github.com/<%= props.author %>/<%= props.name %>#readme",
+  "homepage": "<%= props.url ? props.url + '#readme' : '' %>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/<%= props.author %>/<%= props.name %>.git"
+    "url": "<%= props.url ? props.url + '.git' : '' %>"
   },
   "bugs": {
-    "url": "https://github.com/<%= props.author %>/<%= props.name %>/issues"
+    "url": "<%= props.url ? props.url + '/issues' : '' %>"
   },
   "exports": {
     ".": {
@@ -34,7 +34,7 @@
     "prepublishOnly": "bun run build"
   },
   "dependencies": {
-    "@choiceopen/automation-plugin-sdk-js": "^0.1.0",
+    "@choiceopen/atomemo-plugin-sdk-js": "latest",
     "dotenv": "^17.2.3",
     "zod": "^4.3.5"
   },

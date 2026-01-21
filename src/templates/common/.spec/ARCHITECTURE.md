@@ -4,7 +4,7 @@
 
 ## 概述
 
-这是一个基于 ChoiceOpen Automation Plugin SDK 的测试插件项目。插件提供工具执行功能，支持英文和简体中文两种语言。
+这是一个基于 ChoiceOpen Atomemo Plugin SDK 的测试插件项目。插件提供工具执行功能，支持英文和简体中文两种语言。
 
 ## 技术栈
 
@@ -14,30 +14,30 @@
 - **国际化**: typesafe-i18n
 - **测试框架**: Vitest
 - **代码格式化**: Biome
-- **SDK**: @choiceopen/automation-plugin-sdk-js
+- **SDK**: @choiceopen/atomemo-plugin-sdk-js
 
 ## 项目结构
 
 ```
 testing-plugin/
-├── src/                    # 源代码目录
-│   ├── tools/             # 工具定义
-│   │   └── demo.ts        # 演示工具
-│   ├── i18n/              # 国际化
-│   │   ├── en-US/         # 英文翻译
-│   │   ├── zh-Hans/       # 中文翻译
-│   │   ├── formatters.ts  # 格式化器
-│   │   ├── i18n-node.ts   # Node.js 入口
-│   │   ├── i18n-types.ts  # 类型定义（自动生成）
-│   │   ├── i18n-util.ts   # 工具函数
+├── src/                        # 源代码目录
+│   ├── tools/                  # 工具定义
+│   │   └── demo.ts             # 演示工具
+│   ├── i18n/                   # 国际化
+│   │   ├── en-US/              # 英文翻译
+│   │   ├── zh-Hans/            # 中文翻译
+│   │   ├── formatters.ts       # 格式化器
+│   │   ├── i18n-node.ts        # Node.js 入口
+│   │   ├── i18n-types.ts       # 类型定义（自动生成）
+│   │   ├── i18n-util.ts        # 工具函数
 │   │   ├── i18n-util.async.ts  # 异步加载
 │   │   └── i18n-util.sync.ts   # 同步加载
-│   ├── index.ts           # 插件入口
-│   └── README.md          # 源码说明
-├── tests/                 # 测试文件
-│   └── index.test.ts      # 主测试文件（空）
-├── dist/                  # 构建输出
-└── .spec/                 # 架构文档
+│   ├── index.ts                # 插件入口
+│   └── README.md               # 源码说明
+├── tests/                      # 测试文件
+│   └── index.test.ts           # 主测试文件（空）
+├── dist/                       # 构建输出
+└── .spec/                      # 架构文档
 ```
 
 ## 核心模块
