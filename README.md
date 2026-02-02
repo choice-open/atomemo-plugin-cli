@@ -64,16 +64,8 @@ USAGE
 ## Commands
 
 <!-- commands -->
-* [`atomemo auth login`](#atomemo-auth-login)
-* [`atomemo auth status`](#atomemo-auth-status)
 * [`atomemo autocomplete [SHELL]`](#atomemo-autocomplete-shell)
 * [`atomemo help [COMMAND]`](#atomemo-help-command)
-* [`atomemo plugin checksum [FILE]`](#atomemo-plugin-checksum-file)
-* [`atomemo plugin init`](#atomemo-plugin-init)
-* [`atomemo plugin pack [FILE]`](#atomemo-plugin-pack-file)
-* [`atomemo plugin permission [FILE]`](#atomemo-plugin-permission-file)
-* [`atomemo plugin refresh-key`](#atomemo-plugin-refresh-key)
-* [`atomemo plugin run [FILE]`](#atomemo-plugin-run-file)
 * [`atomemo version`](#atomemo-version)
 
 ## `atomemo auth login`
