@@ -1,6 +1,11 @@
 import type { ToolDefinition } from "@choiceopen/atomemo-plugin-sdk-js/types"
 import { t } from "../i18n/i18n-node"
 
+interface ToolArgs {
+  parameters: { location: string }
+  credentials: Record<string, { api_key: string }>
+}
+
 export const demoTool = {
   name: "demo-tool",
   display_name: t("DEMO_TOOL_DISPLAY_NAME"),
@@ -21,9 +26,9 @@ export const demoTool = {
       },
     },
   ],
-  async invoke({ args }: { args: { location: string } }) {
+  async invoke({ args }: { args: ToolArgs }) {
     return {
-      message: `Testing the plugin with location: ${args.location}`,
+      message: `Testing the plugin with location: ${args.parameters.location}`,
     }
   },
 } satisfies ToolDefinition
