@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.11] - 2026-02-02
+
+### Changed
+
+- 更新插件模板依赖版本：
+  - `zod`: ^4.3.5 → ^4.3.6
+  - `@biomejs/biome`: ^2.3.11 → ^2.3.13
+  - `@types/bun`: ^1.3.6 → ^1.3.8
+  - `tsdown`: ^0.19.0 → ^0.20.1
+  - `vitest`: ^4.0.17 → ^4.0.18
+
+## [0.5.10] - 2026-02-02
+
+### Changed
+
+- 优化 README.md 文档，增加详细的命令说明和使用示例
+
 ## [0.5.9] - 2026-02-02
 
 ### Changed
@@ -217,7 +234,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.9...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.11...HEAD
+[0.5.11]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.10...v0.5.11
+[0.5.10]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.9...v0.5.10
 [0.5.9]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.8...v0.5.9
 [0.5.8]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.7...v0.5.8
 [0.5.7]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.6...v0.5.7
