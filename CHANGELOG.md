@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.8] - 2026-02-02
+
+### Added
+
+- `plugin init` 命令现在会自动从用户会话中获取 `organizationId` 并写入 `.env` 文件
+- 插件模板新增 `lang` 属性配置
+- 新增 `.env.eta` 模板，包含 `HUB_WS_URL` 默认值
+
+### Changed
+
+- 环境变量重命名：
+  - `DEBUG_API_KEY` → `HUB_DEBUG_API_KEY`
+  - `ORGANIZATION_ID` → `HUB_ORGANIZATION_ID`
+
+### Breaking Changes
+
+- 环境变量名称已更改，使用旧版本创建的插件需要手动更新 `.env` 文件中的变量名
+
 ## [0.5.7] - 2026-01-21
 
 ### Added
@@ -193,7 +211,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.7...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.8...HEAD
+[0.5.8]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.7...v0.5.8
 [0.5.7]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.6...v0.5.7
 [0.5.6]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.5...v0.5.6
 [0.5.5]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.4...v0.5.5
