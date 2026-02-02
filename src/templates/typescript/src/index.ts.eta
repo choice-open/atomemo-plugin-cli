@@ -12,6 +12,7 @@ const plugin = await createPlugin({
   display_name: t("PLUGIN_DISPLAY_NAME"),
   description: t("PLUGIN_DESCRIPTION"),
   icon: "🎛️",
+  lang: "<%= props.language %>",
   version: packageJSON.version,
   repo: "<%= props.url %>",
   locales,

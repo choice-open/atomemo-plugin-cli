@@ -46,12 +46,13 @@ export default class PluginRefreshKey extends Command {
       const apiKey = await this.fetchDebugApiKey(config.auth.access_token)
 
       // Step 5: Manage .env file
+      assert(config.hub?.endpoint, "Hub endpoint is required")
       await this.updateEnvFile(apiKey, session.user.inherentOrganizationId)
 
       // Display success message
       this.log(colorize("green", "✓ Debug API Key refreshed successfully"))
-      this.log(colorize("green", "✓ DEBUG_API_KEY updated in .env file"))
-      this.log(colorize("green", "✓ ORGANIZATION_ID updated in .env file"))
+      this.log(colorize("green", "✓ HUB_DEBUG_API_KEY updated in .env file"))
+      this.log(colorize("green", "✓ HUB_ORGANIZATION_ID updated in .env file"))
       this.log("")
       this.log("Your debug API Key has been saved to .env file.")
       this.log(`Key preview: ${this.maskApiKey(apiKey)}`)
@@ -145,34 +146,34 @@ export default class PluginRefreshKey extends Command {
 
       try {
         envContent = await fs.readFile(envPath, "utf-8")
-        existingApiKey = envContent.includes("DEBUG_API_KEY=")
-        existingOrgId = envContent.includes("ORGANIZATION_ID=")
+        existingApiKey = envContent.includes("HUB_DEBUG_API_KEY=")
+        existingOrgId = envContent.includes("HUB_ORGANIZATION_ID=")
       } catch (_error) {
         // File doesn't exist, will create new file
       }
 
       let newContent: string = envContent
 
-      // Update or add DEBUG_API_KEY
+      // Update or add HUB_DEBUG_API_KEY
       if (existingApiKey) {
         newContent = newContent.replace(
-          /^DEBUG_API_KEY=.*$/m,
-          `DEBUG_API_KEY=${apiKey}`,
+          /^HUB_DEBUG_API_KEY=.*$/m,
+          `HUB_DEBUG_API_KEY=${apiKey}`,
         )
       } else {
         const separator = newContent && !newContent.endsWith("\n") ? "\n" : ""
-        newContent = `${newContent + separator}DEBUG_API_KEY=${apiKey}\n`
+        newContent = `${newContent + separator}HUB_DEBUG_API_KEY=${apiKey}\n`
       }
 
-      // Update or add ORGANIZATION_ID
+      // Update or add HUB_ORGANIZATION_ID
       if (existingOrgId) {
         newContent = newContent.replace(
-          /^ORGANIZATION_ID=.*$/m,
-          `ORGANIZATION_ID=${organizationId}`,
+          /^HUB_ORGANIZATION_ID=.*$/m,
+          `HUB_ORGANIZATION_ID=${organizationId}`,
         )
       } else {
         const separator = newContent && !newContent.endsWith("\n") ? "\n" : ""
-        newContent = `${newContent + separator}ORGANIZATION_ID=${organizationId}\n`
+        newContent = `${newContent + separator}HUB_ORGANIZATION_ID=${organizationId}\n`
       }
 
       await fs.writeFile(envPath, newContent, "utf-8")
