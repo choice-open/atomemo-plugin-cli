@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.9] - 2026-02-02
+
+### Changed
+
+- 模板重构：`demoTool` 的 `invoke` 方法改为使用结构化的 `ToolArgs` 接口，提升类型安全性
+
 ## [0.5.8] - 2026-02-02
 
 ### Added
@@ -211,7 +217,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.8...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.9...HEAD
+[0.5.9]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.8...v0.5.9
 [0.5.8]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.7...v0.5.8
 [0.5.7]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.6...v0.5.7
 [0.5.6]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.5...v0.5.6
