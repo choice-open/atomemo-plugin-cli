@@ -138,13 +138,13 @@ describe("plugin refresh-key", () => {
 
     const { stdout } = await runCommand("plugin refresh-key")
     expect(stdout).to.contain("Debug API Key refreshed successfully")
-    expect(stdout).to.contain("DEBUG_API_KEY updated in .env file")
-    expect(stdout).to.contain("ORGANIZATION_ID updated in .env file")
+    expect(stdout).to.contain("HUB_DEBUG_API_KEY updated in .env file")
+    expect(stdout).to.contain("HUB_ORGANIZATION_ID updated in .env file")
 
     const envPath = join(testDir, ".env")
     const content = await fs.readFile(envPath, "utf-8")
-    expect(content).to.contain("DEBUG_API_KEY=test_api_key_12345678")
-    expect(content).to.contain("ORGANIZATION_ID=org_123456")
+    expect(content).to.contain("HUB_DEBUG_API_KEY=test_api_key_12345678")
+    expect(content).to.contain("HUB_ORGANIZATION_ID=org_123456")
   })
 
   it("更新现有的 .env 文件中的 DEBUG_API_KEY", async () => {
@@ -181,15 +181,15 @@ describe("plugin refresh-key", () => {
     const envPath = join(testDir, ".env")
     await fs.writeFile(
       envPath,
-      `EXISTING_KEY=value\nDEBUG_API_KEY=old_key_123\nANOTHER_KEY=value2`,
+      `EXISTING_KEY=value\nHUB_DEBUG_API_KEY=old_key_123\nANOTHER_KEY=value2`,
     )
 
     const { stdout } = await runCommand("plugin refresh-key")
     expect(stdout).to.contain("Debug API Key refreshed successfully")
 
     const content = await fs.readFile(envPath, "utf-8")
-    expect(content).to.contain("DEBUG_API_KEY=new_api_key_87654321")
-    expect(content).to.contain("ORGANIZATION_ID=org_789012")
+    expect(content).to.contain("HUB_DEBUG_API_KEY=new_api_key_87654321")
+    expect(content).to.contain("HUB_ORGANIZATION_ID=org_789012")
     expect(content).to.contain("EXISTING_KEY=value")
     expect(content).to.contain("ANOTHER_KEY=value2")
     expect(content).to.not.contain("old_key_123")
@@ -233,8 +233,8 @@ describe("plugin refresh-key", () => {
     expect(stdout).to.contain("Debug API Key refreshed successfully")
 
     const content = await fs.readFile(envPath, "utf-8")
-    expect(content).to.contain("DEBUG_API_KEY=appended_key_999")
-    expect(content).to.contain("ORGANIZATION_ID=org_345678")
+    expect(content).to.contain("HUB_DEBUG_API_KEY=appended_key_999")
+    expect(content).to.contain("HUB_ORGANIZATION_ID=org_345678")
     expect(content).to.contain("EXISTING_KEY=value")
     expect(content).to.contain("ANOTHER_KEY=value2")
   })
@@ -273,15 +273,15 @@ describe("plugin refresh-key", () => {
     const envPath = join(testDir, ".env")
     await fs.writeFile(
       envPath,
-      `DEBUG_API_KEY=old_key\nORGANIZATION_ID=org_old_456\nOTHER_KEY=value`,
+      `HUB_DEBUG_API_KEY=old_key\nHUB_ORGANIZATION_ID=org_old_456\nOTHER_KEY=value`,
     )
 
     const { stdout } = await runCommand("plugin refresh-key")
     expect(stdout).to.contain("Debug API Key refreshed successfully")
 
     const content = await fs.readFile(envPath, "utf-8")
-    expect(content).to.contain("DEBUG_API_KEY=test_key_456")
-    expect(content).to.contain("ORGANIZATION_ID=org_new_123")
+    expect(content).to.contain("HUB_DEBUG_API_KEY=test_key_456")
+    expect(content).to.contain("HUB_ORGANIZATION_ID=org_new_123")
     expect(content).to.contain("OTHER_KEY=value")
     expect(content).to.not.contain("org_old_456")
   })
