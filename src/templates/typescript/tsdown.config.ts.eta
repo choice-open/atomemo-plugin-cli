@@ -7,5 +7,6 @@ export default defineConfig({
     devExports: "development",
   },
   format: "esm",
+  inlineOnly: ["typesafe-i18n"],
   sourcemap: true,
 })
