@@ -1,7 +1,8 @@
-import { Command } from "@oclif/core"
+import { Command, Flags } from "@oclif/core"
 import { colorize } from "@oclif/core/ux"
 import { assert } from "es-toolkit"
 import { dedent } from "ts-dedent"
+import type { Environment } from "../../utils/config.js"
 import * as configStore from "../../utils/config.js"
 
 interface Session {
@@ -30,12 +31,21 @@ export default class AuthStatus extends Command {
     },
   ]
 
+  static override flags = {
+    staging: Flags.boolean({
+      allowNo: false,
+      hidden: true,
+    }),
+  }
+
   public async run(): Promise<void> {
-    await this.parse(AuthStatus)
+    const { flags } = await this.parse(AuthStatus)
 
+    const env: Environment = flags.staging ? "staging" : "production"
     const config = await configStore.load()
+    const authConfig = config.auth?.[env]
 
-    if (!config.auth?.access_token) {
+    if (!authConfig?.access_token) {
       this.log(
         colorize(
           "yellow",
@@ -45,13 +55,17 @@ export default class AuthStatus extends Command {
       return
     }
 
-    assert(config.auth?.endpoint, "Auth endpoint is required")
+    assert(authConfig.endpoint, "Auth endpoint is required")
 
     try {
       const session = await this.fetchSession(
-        config.auth.endpoint,
-        config.auth.access_token,
+        authConfig.endpoint,
+        authConfig.access_token,
       )
+
+      if (!session) {
+        throw new Error("Your session has expired, try to login again")
+      }
 
       this.log(colorize("greenBright", "✓ Authenticated\n"))
       this.log(
@@ -88,6 +102,10 @@ export default class AuthStatus extends Command {
         Authorization: `Bearer ${accessToken}`,
       },
     })
+
+    console.debug(
+      `Fetch session response: ${response.status} ${response.statusText}`,
+    )
 
     if (!response.ok) {
       if (response.status === 401) {

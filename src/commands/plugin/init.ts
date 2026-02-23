@@ -9,6 +9,7 @@ import { assert, isString } from "es-toolkit"
 import { dedent } from "ts-dedent"
 import z from "zod"
 import * as configStore from "../../utils/config.js"
+import type { Environment } from "../../utils/config.js"
 import { createPluginGenerator } from "../../utils/generator.js"
 import { selectTheme } from "../../utils/theme.js"
 
@@ -60,6 +61,10 @@ export default class PluginInit extends Command {
       char: "l",
       summary: "Programming language to use for plugin development",
     }),
+    staging: Flags.boolean({
+      allowNo: false,
+      hidden: true,
+    }),
   }
 
   public async run(): Promise<void> {
@@ -94,7 +99,8 @@ export default class PluginInit extends Command {
     let email = ""
     let organizationId = ""
     try {
-      const session = await this.fetchSession()
+      const env: Environment = flags.staging ? "staging" : "production"
+      const session = await this.fetchSession(env)
       author = session.user.name
       email = session.user.email
       organizationId = session.user.inherentOrganizationId
@@ -287,7 +293,7 @@ export default class PluginInit extends Command {
     })
   }
 
-  private async fetchSession(): Promise<{
+  private async fetchSession(env: Environment): Promise<{
     user: {
       name: string
       email: string
@@ -299,20 +305,21 @@ export default class PluginInit extends Command {
     }
   }> {
     const config = await configStore.load()
+    const authConfig = config.auth?.[env]
 
-    if (!config.auth?.access_token) {
+    if (!authConfig?.access_token) {
       throw new Error("Access token not found")
     }
 
-    assert(config.auth?.endpoint, "Auth endpoint is required")
+    assert(authConfig.endpoint, "Auth endpoint is required")
 
     const response = await fetch(
-      `${config.auth.endpoint}/v1/auth/get-session`,
+      `${authConfig.endpoint}/v1/auth/get-session`,
       {
         headers: {
           "Content-Type": "application/json",
           "User-Agent": "Choiceform (Atomemo Plugin CLI)",
-          Authorization: `Bearer ${config.auth.access_token}`,
+          Authorization: `Bearer ${authConfig.access_token}`,
         },
       },
     )

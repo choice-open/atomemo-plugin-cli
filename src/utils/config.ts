@@ -12,16 +12,28 @@ function getConfigFile(): string {
   return join(getConfigDir(), "atomemo.json")
 }
 
+export type Environment = "staging" | "production"
+
+const AuthEnvSchema = z.object({
+  endpoint: z.url().optional(),
+  access_token: z.string().optional(),
+})
+
+const HubEnvSchema = z.object({
+  endpoint: z.url().optional(),
+})
+
 const ConfigSchema = z.object({
   auth: z
     .object({
-      endpoint: z.url().optional(),
-      access_token: z.string().optional(),
+      staging: AuthEnvSchema.optional(),
+      production: AuthEnvSchema.optional(),
     })
     .optional(),
   hub: z
     .object({
-      endpoint: z.url().optional(),
+      staging: HubEnvSchema.optional(),
+      production: HubEnvSchema.optional(),
     })
     .optional(),
 })
@@ -36,39 +48,41 @@ export async function save(config: Config): Promise<void> {
   await fs.writeFile(configFile, JSON.stringify(validated, null, 2), "utf-8")
 }
 
+const defaultConfig: Config = {
+  auth: {
+    staging: { endpoint: "https://oneauth.choiceform.io" },
+    production: { endpoint: "https://oneauth.atomemo.ai" },
+  },
+  hub: {
+    staging: { endpoint: "https://automation-plugin-api.choiceform.io" },
+    production: { endpoint: "https://plugin-hub.atomemo.ai" },
+  },
+}
+
+function isNewFormat(data: unknown): boolean {
+  if (!data || typeof data !== "object") return false
+  const auth = (data as Record<string, unknown>).auth
+  if (!auth || typeof auth !== "object") return false
+  return "staging" in auth || "production" in auth
+}
+
 export async function load(): Promise<Config> {
   const configFile = getConfigFile()
 
   try {
-    await fs.access(configFile)
-  } catch (error) {
-    if (
-      error instanceof Error &&
-      ("code" in error ? error.code === "ENOENT" : false)
-    ) {
-      const defaultConfig: Config = {
-        auth: {
-          endpoint:
-            process.env.NODE_ENV === "production"
-              ? "https://oneauth.choiceform.io"
-              : "https://oneauth.choiceform.io",
-        },
-        hub: {
-          endpoint:
-            process.env.NODE_ENV === "production"
-              ? "https://automation-plugin-api.choiceform.io"
-              : "https://automation-plugin-api.choiceform.io",
-        },
-      }
-      await save(defaultConfig)
-      return defaultConfig
+    const content = await fs.readFile(configFile, "utf-8")
+    const parsed = JSON.parse(content)
+
+    if (isNewFormat(parsed)) {
+      const result = ConfigSchema.parse(parsed)
+      return toMerged(defaultConfig, result) as Config
     }
-    throw error
+  } catch {
+    // File doesn't exist or is unreadable
   }
 
-  const content = await fs.readFile(configFile, "utf-8")
-  const parsed = JSON.parse(content)
-  return ConfigSchema.parse(parsed)
+  await save(defaultConfig)
+  return defaultConfig
 }
 
 export async function update(updates: Partial<Config>): Promise<void> {

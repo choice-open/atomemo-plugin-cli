@@ -1,10 +1,11 @@
 import { promises as fs } from "node:fs"
 import { join } from "node:path"
-import { Command } from "@oclif/core"
+import { Command, Flags } from "@oclif/core"
 import { colorize } from "@oclif/core/ux"
 import { assert } from "es-toolkit"
 import { dedent } from "ts-dedent"
 import * as configStore from "../../utils/config.js"
+import type { Environment } from "../../utils/config.js"
 
 export default class PluginRefreshKey extends Command {
   static override description =
@@ -12,12 +13,22 @@ export default class PluginRefreshKey extends Command {
 
   static override examples = ["<%= config.bin %> <%= command.id %>"]
 
+  static override flags = {
+    staging: Flags.boolean({
+      allowNo: false,
+      hidden: true,
+    }),
+  }
+
   public async run(): Promise<void> {
-    await this.parse(PluginRefreshKey)
+    const { flags } = await this.parse(PluginRefreshKey)
+
+    const env: Environment = flags.staging ? "staging" : "production"
 
     // Step 1: Check access token
     const config = await configStore.load()
-    if (!config.auth?.access_token) {
+    const authConfig = config.auth?.[env]
+    if (!authConfig?.access_token) {
       this.log(
         colorize(
           "red",
@@ -29,7 +40,7 @@ export default class PluginRefreshKey extends Command {
 
     try {
       // Step 2: Fetch user session
-      const session = await this.fetchUserSession(config.auth.access_token)
+      const session = await this.fetchUserSession(authConfig.access_token, env)
 
       // Step 3: Check inherentOrganizationId
       if (!session.user.inherentOrganizationId) {
@@ -43,10 +54,11 @@ export default class PluginRefreshKey extends Command {
       }
 
       // Step 4: Fetch debug API Key
-      const apiKey = await this.fetchDebugApiKey(config.auth.access_token)
+      const apiKey = await this.fetchDebugApiKey(authConfig.access_token, env)
 
       // Step 5: Manage .env file
-      assert(config.hub?.endpoint, "Hub endpoint is required")
+      const hubConfig = config.hub?.[env]
+      assert(hubConfig?.endpoint, "Hub endpoint is required")
       await this.updateEnvFile(apiKey, session.user.inherentOrganizationId)
 
       // Display success message
@@ -63,14 +75,18 @@ export default class PluginRefreshKey extends Command {
     }
   }
 
-  private async fetchUserSession(accessToken: string): Promise<{
+  private async fetchUserSession(
+    accessToken: string,
+    env: Environment,
+  ): Promise<{
     user: { inherentOrganizationId?: string }
   }> {
     const config = await configStore.load()
-    assert(config.auth?.endpoint, "Auth endpoint is required")
+    const authConfig = config.auth?.[env]
+    assert(authConfig?.endpoint, "Auth endpoint is required")
 
     const response = await fetch(
-      `${config.auth.endpoint}/v1/auth/get-session`,
+      `${authConfig.endpoint}/v1/auth/get-session`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -96,13 +112,16 @@ export default class PluginRefreshKey extends Command {
     }
   }
 
-  private async fetchDebugApiKey(accessToken: string): Promise<string> {
-    // Get endpoint from config, use default if not available
+  private async fetchDebugApiKey(
+    accessToken: string,
+    env: Environment,
+  ): Promise<string> {
     const config = await configStore.load()
-    assert(config.hub?.endpoint, "Hub endpoint is required")
+    const hubConfig = config.hub?.[env]
+    assert(hubConfig?.endpoint, "Hub endpoint is required")
 
     const response = await fetch(
-      `${config.hub.endpoint}/api/v1/debug_api_key`,
+      `${hubConfig.endpoint}/api/v1/debug_api_key`,
       {
         method: "GET",
         headers: {

@@ -1,10 +1,11 @@
 import confirm from "@inquirer/confirm"
-import { Command } from "@oclif/core"
+import { Command, Flags } from "@oclif/core"
 import { colorize } from "@oclif/core/ux"
 import { assert } from "es-toolkit"
 import open from "open"
 import { dedent } from "ts-dedent"
 import yoctoSpinner, { type Spinner } from "yocto-spinner"
+import type { Environment } from "../../utils/config.js"
 import * as configStore from "../../utils/config.js"
 
 export default class AuthLogin extends Command {
@@ -23,7 +24,12 @@ export default class AuthLogin extends Command {
     },
   ]
 
-  static override flags = {}
+  static override flags = {
+    staging: Flags.boolean({
+      allowNo: false,
+      hidden: true,
+    }),
+  }
 
   private pollingInterval = 5
 
@@ -33,12 +39,16 @@ export default class AuthLogin extends Command {
 
   private declare endpoint: string
 
-  public async run(): Promise<void> {
-    await this.parse(AuthLogin)
+  private declare env: Environment
 
+  public async run(): Promise<void> {
+    const { flags } = await this.parse(AuthLogin)
+
+    this.env = flags.staging ? "staging" : "production"
     const config = await configStore.load()
-    assert(config.auth?.endpoint, "Auth endpoint is required")
-    this.endpoint = config.auth.endpoint
+    const authConfig = config.auth?.[this.env]
+    assert(authConfig?.endpoint, "Auth endpoint is required")
+    this.endpoint = authConfig.endpoint
     const payload = await this.requestDeviceCode(this.endpoint)
 
     this.log(
@@ -77,7 +87,9 @@ export default class AuthLogin extends Command {
       throw error
     }
 
-    await configStore.update({ auth: { access_token: result.access_token } })
+    await configStore.update({
+      auth: { [this.env]: { access_token: result.access_token } },
+    })
 
     const session = await fetch(`${this.endpoint}/v1/auth/get-session`, {
       headers: {
