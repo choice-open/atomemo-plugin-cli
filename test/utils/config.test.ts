@@ -5,6 +5,17 @@ import { expect } from "chai"
 import { afterEach, beforeEach, describe, it } from "mocha"
 import * as config from "../../src/utils/config.js"
 
+const defaultConfig = {
+  auth: {
+    staging: { endpoint: "https://oneauth.choiceform.io" },
+    production: { endpoint: "https://oneauth.atomemo.ai" },
+  },
+  hub: {
+    staging: { endpoint: "https://automation-plugin-api.choiceform.io" },
+    production: { endpoint: "https://plugin-hub.atomemo.ai" },
+  },
+}
+
 describe("config", () => {
   let testConfigDir: string
   let originalConfigDir: string | undefined
@@ -43,8 +54,10 @@ describe("config", () => {
     it("should save config to file", async () => {
       const testConfig = {
         auth: {
-          endpoint: "https://api.example.com",
-          access_token: "test-token",
+          production: {
+            endpoint: "https://api.example.com",
+            access_token: "test-token",
+          },
         },
       }
 
@@ -64,8 +77,10 @@ describe("config", () => {
 
       const testConfig = {
         auth: {
-          endpoint: "https://api.example.com",
-          access_token: "test-token",
+          production: {
+            endpoint: "https://api.example.com",
+            access_token: "test-token",
+          },
         },
       }
 
@@ -83,8 +98,10 @@ describe("config", () => {
     it("should overwrite existing config", async () => {
       const initialConfig = {
         auth: {
-          endpoint: "https://old.example.com",
-          access_token: "old-token",
+          production: {
+            endpoint: "https://old.example.com",
+            access_token: "old-token",
+          },
         },
       }
 
@@ -92,22 +109,35 @@ describe("config", () => {
 
       const newConfig = {
         auth: {
-          endpoint: "https://new.example.com",
-          access_token: "new-token",
+          production: {
+            endpoint: "https://new.example.com",
+            access_token: "new-token",
+          },
         },
       }
 
       await config.save(newConfig)
 
+      // Verify the raw file contains exactly what was saved (not merged)
+      const testConfigFile = join(testConfigDir, "atomemo.json")
+      const content = await fs.readFile(testConfigFile, "utf-8")
+      expect(JSON.parse(content)).to.deep.equal(newConfig)
+
+      // Verify loaded config has the new values (merged with defaults)
       const loaded = await config.load()
-      expect(loaded).to.deep.equal(newConfig)
+      expect(loaded.auth?.production?.endpoint).to.equal(
+        "https://new.example.com",
+      )
+      expect(loaded.auth?.production?.access_token).to.equal("new-token")
     })
 
     it("should validate config schema", async () => {
       const invalidConfig = {
         auth: {
-          endpoint: "not-a-url",
-          access_token: "token",
+          production: {
+            endpoint: "not-a-url",
+            access_token: "token",
+          },
         },
       }
 
@@ -121,38 +151,36 @@ describe("config", () => {
   })
 
   describe("load", () => {
-    it("should load config from file", async () => {
-      const testConfig = {
+    it("should load config from file and merge with defaults", async () => {
+      const savedConfig = {
         auth: {
-          endpoint: "https://api.example.com",
-          access_token: "test-token",
+          production: { access_token: "test-token" },
         },
       }
 
       const testConfigFile = join(testConfigDir, "atomemo.json")
       await fs.writeFile(
         testConfigFile,
-        JSON.stringify(testConfig, null, 2),
+        JSON.stringify(savedConfig, null, 2),
         "utf-8",
       )
 
       const loaded = await config.load()
-      expect(loaded).to.deep.equal(testConfig)
+      // access_token from saved config
+      expect(loaded.auth?.production?.access_token).to.equal("test-token")
+      // endpoint merged from defaultConfig
+      expect(loaded.auth?.production?.endpoint).to.equal(
+        "https://oneauth.atomemo.ai",
+      )
+      // staging values come from defaultConfig
+      expect(loaded.auth?.staging?.endpoint).to.equal(
+        "https://oneauth.choiceform.io",
+      )
     })
 
     it("should create default config if file does not exist", async () => {
-      const originalNodeEnv = process.env.NODE_ENV
-      delete process.env.NODE_ENV
-
       const loaded = await config.load()
-      expect(loaded).to.deep.equal({
-        auth: {
-          endpoint: "https://oneauth.choiceform.io",
-        },
-        hub: {
-          endpoint: "https://automation-plugin-api.choiceform.io",
-        },
-      })
+      expect(loaded).to.deep.equal(defaultConfig)
 
       const testConfigFile = join(testConfigDir, "atomemo.json")
       const exists = await fs
@@ -160,46 +188,30 @@ describe("config", () => {
         .then(() => true)
         .catch(() => false)
       expect(exists).to.be.true
-
-      if (originalNodeEnv !== undefined) {
-        process.env.NODE_ENV = originalNodeEnv
-      }
     })
 
-    it("should create production config if NODE_ENV is production", async () => {
-      const originalNodeEnv = process.env.NODE_ENV
-      process.env.NODE_ENV = "production"
-
-      // 删除配置文件以触发创建默认配置
+    it("should return default config and save it when file has old (non-nested) format", async () => {
+      // Old format: auth without staging/production keys
+      // isNewFormat returns false for this, so load() falls back to defaultConfig
       const testConfigFile = join(testConfigDir, "atomemo.json")
-      try {
-        await fs.unlink(testConfigFile)
-      } catch {
-        // 忽略错误
-      }
+      await fs.writeFile(
+        testConfigFile,
+        JSON.stringify({ auth: {} }, null, 2),
+        "utf-8",
+      )
 
       const loaded = await config.load()
-      expect(loaded).to.deep.equal({
-        auth: {
-          endpoint: "https://oneauth.choiceform.io",
-        },
-        hub: {
-          endpoint: "https://automation-plugin-api.choiceform.io",
-        },
-      })
-
-      if (originalNodeEnv !== undefined) {
-        process.env.NODE_ENV = originalNodeEnv
-      } else {
-        delete process.env.NODE_ENV
-      }
+      expect(loaded).to.deep.equal(defaultConfig)
     })
 
     it("should validate loaded config", async () => {
+      // Write a new-format config with an invalid URL to trigger Zod validation error
       const invalidConfig = {
         auth: {
-          endpoint: "not-a-url",
-          access_token: "token",
+          production: {
+            endpoint: "not-a-url",
+            access_token: "token",
+          },
         },
       }
 
@@ -218,17 +230,13 @@ describe("config", () => {
       }
     })
 
-    it("should handle empty config", async () => {
-      const emptyConfig = {}
+    it("should return default config when file has empty content", async () => {
       const testConfigFile = join(testConfigDir, "atomemo.json")
-      await fs.writeFile(
-        testConfigFile,
-        JSON.stringify(emptyConfig, null, 2),
-        "utf-8",
-      )
+      await fs.writeFile(testConfigFile, JSON.stringify({}, null, 2), "utf-8")
 
+      // {} doesn't pass isNewFormat (no staging/production in auth), so returns defaultConfig
       const loaded = await config.load()
-      expect(loaded).to.deep.equal(emptyConfig)
+      expect(loaded).to.deep.equal(defaultConfig)
     })
   })
 
@@ -236,8 +244,10 @@ describe("config", () => {
     it("should update existing config", async () => {
       const initialConfig = {
         auth: {
-          endpoint: "https://api.example.com",
-          access_token: "old-token",
+          production: {
+            endpoint: "https://api.example.com",
+            access_token: "old-token",
+          },
         },
       }
 
@@ -245,33 +255,41 @@ describe("config", () => {
 
       await config.update({
         auth: {
-          access_token: "new-token",
+          production: { access_token: "new-token" },
         },
       })
 
       const loaded = await config.load()
-      expect(loaded?.auth?.endpoint).to.equal("https://api.example.com")
-      expect(loaded?.auth?.access_token).to.equal("new-token")
+      expect(loaded?.auth?.production?.endpoint).to.equal(
+        "https://api.example.com",
+      )
+      expect(loaded?.auth?.production?.access_token).to.equal("new-token")
     })
 
     it("should create config if not exists", async () => {
       await config.update({
         auth: {
-          endpoint: "https://api.example.com",
-          access_token: "new-token",
+          production: {
+            endpoint: "https://api.example.com",
+            access_token: "new-token",
+          },
         },
       })
 
       const loaded = await config.load()
-      expect(loaded?.auth?.endpoint).to.equal("https://api.example.com")
-      expect(loaded?.auth?.access_token).to.equal("new-token")
+      expect(loaded?.auth?.production?.endpoint).to.equal(
+        "https://api.example.com",
+      )
+      expect(loaded?.auth?.production?.access_token).to.equal("new-token")
     })
 
     it("should deep merge nested objects", async () => {
       const initialConfig = {
         auth: {
-          endpoint: "https://api.example.com",
-          access_token: "old-token",
+          production: {
+            endpoint: "https://api.example.com",
+            access_token: "old-token",
+          },
         },
       }
 
@@ -279,13 +297,15 @@ describe("config", () => {
 
       await config.update({
         auth: {
-          endpoint: "https://new.example.com",
+          production: { endpoint: "https://new.example.com" },
         },
       })
 
       const loaded = await config.load()
-      expect(loaded?.auth?.endpoint).to.equal("https://new.example.com")
-      expect(loaded?.auth?.access_token).to.equal("old-token")
+      expect(loaded?.auth?.production?.endpoint).to.equal(
+        "https://new.example.com",
+      )
+      expect(loaded?.auth?.production?.access_token).to.equal("old-token")
     })
 
     it("should handle partial updates with empty existing config", async () => {
@@ -293,14 +313,18 @@ describe("config", () => {
 
       await config.update({
         auth: {
-          endpoint: "https://api.example.com",
-          access_token: "token",
+          production: {
+            endpoint: "https://api.example.com",
+            access_token: "token",
+          },
         },
       })
 
       const loaded = await config.load()
-      expect(loaded?.auth?.endpoint).to.equal("https://api.example.com")
-      expect(loaded?.auth?.access_token).to.equal("token")
+      expect(loaded?.auth?.production?.endpoint).to.equal(
+        "https://api.example.com",
+      )
+      expect(loaded?.auth?.production?.access_token).to.equal("token")
     })
   })
 })

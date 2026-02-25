@@ -53,18 +53,14 @@ describe("plugin refresh-key", () => {
   it("当访问令牌无效时显示错误信息", async function () {
     this.timeout(5000)
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+      http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
         return new HttpResponse(null, { status: 401 })
       }),
     )
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "invalid_token_123",
-      },
-      hub: {
-        endpoint: "https://automation-plugin-api.choiceform.io",
+        production: { access_token: "invalid_token_123" },
       },
     })
 
@@ -72,42 +68,30 @@ describe("plugin refresh-key", () => {
     expect(stdout).to.contain("Failed to refresh debug API Key")
   })
 
-  it("当 inherentOrganizationId 不存在时提示去 Discord 频道", async function () {
+  it("当 Hub API 返回服务器错误时显示错误信息", async function () {
     this.timeout(5000)
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
-        return HttpResponse.json({
-          user: { name: "Test User", email: "test@example.com" },
-          session: {
-            updatedAt: "2025-01-01T00:00:00Z",
-            expiresAt: "2025-12-31T23:59:59Z",
-          },
+      http.get("https://plugin-hub.atomemo.ai/api/v1/debug_api_key", () => {
+        return new HttpResponse(null, {
+          status: 500,
+          statusText: "Internal Server Error",
         })
       }),
     )
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "test_token",
-      },
-      hub: {
-        endpoint: "https://automation-plugin-api.choiceform.io",
+        production: { access_token: "test_token" },
       },
     })
 
     const { stdout } = await runCommand("plugin refresh-key")
-    expect(stdout).to.contain("An error occurred while processing your request")
-    expect(stdout).to.contain(
-      "Please report this issue in the Choiceform Discord channel",
-    )
-    expect(stdout).to.contain("https://discord.gg/udTZT6AN3q")
-    expect(stdout).to.not.contain("inherentOrganizationId")
+    expect(stdout).to.contain("Failed to refresh debug API Key")
   })
 
   it("成功时创建新的 .env 文件", async () => {
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+      http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
         return HttpResponse.json({
           user: {
             name: "Test User",
@@ -120,36 +104,29 @@ describe("plugin refresh-key", () => {
           },
         })
       }),
-      http.get(
-        "https://automation-plugin-api.choiceform.io/api/v1/debug_api_key",
-        () => HttpResponse.json({ api_key: "test_api_key_12345678" }),
+      http.get("https://plugin-hub.atomemo.ai/api/v1/debug_api_key", () =>
+        HttpResponse.json({ api_key: "test_api_key_12345678" }),
       ),
     )
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "test_token",
-      },
-      hub: {
-        endpoint: "https://automation-plugin-api.choiceform.io",
+        production: { access_token: "test_token" },
       },
     })
 
     const { stdout } = await runCommand("plugin refresh-key")
     expect(stdout).to.contain("Debug API Key refreshed successfully")
     expect(stdout).to.contain("HUB_DEBUG_API_KEY updated in .env file")
-    expect(stdout).to.contain("HUB_ORGANIZATION_ID updated in .env file")
 
     const envPath = join(testDir, ".env")
     const content = await fs.readFile(envPath, "utf-8")
     expect(content).to.contain("HUB_DEBUG_API_KEY=test_api_key_12345678")
-    expect(content).to.contain("HUB_ORGANIZATION_ID=org_123456")
   })
 
   it("更新现有的 .env 文件中的 DEBUG_API_KEY", async () => {
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+      http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
         return HttpResponse.json({
           user: {
             name: "Test User",
@@ -162,19 +139,14 @@ describe("plugin refresh-key", () => {
           },
         })
       }),
-      http.get(
-        "https://automation-plugin-api.choiceform.io/api/v1/debug_api_key",
-        () => HttpResponse.json({ api_key: "new_api_key_87654321" }),
+      http.get("https://plugin-hub.atomemo.ai/api/v1/debug_api_key", () =>
+        HttpResponse.json({ api_key: "new_api_key_87654321" }),
       ),
     )
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "test_token",
-      },
-      hub: {
-        endpoint: "https://automation-plugin-api.choiceform.io",
+        production: { access_token: "test_token" },
       },
     })
 
@@ -189,7 +161,6 @@ describe("plugin refresh-key", () => {
 
     const content = await fs.readFile(envPath, "utf-8")
     expect(content).to.contain("HUB_DEBUG_API_KEY=new_api_key_87654321")
-    expect(content).to.contain("HUB_ORGANIZATION_ID=org_789012")
     expect(content).to.contain("EXISTING_KEY=value")
     expect(content).to.contain("ANOTHER_KEY=value2")
     expect(content).to.not.contain("old_key_123")
@@ -197,7 +168,7 @@ describe("plugin refresh-key", () => {
 
   it("在现有的 .env 文件末尾追加 DEBUG_API_KEY", async () => {
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+      http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
         return HttpResponse.json({
           user: {
             name: "Test User",
@@ -210,19 +181,14 @@ describe("plugin refresh-key", () => {
           },
         })
       }),
-      http.get(
-        "https://automation-plugin-api.choiceform.io/api/v1/debug_api_key",
-        () => HttpResponse.json({ api_key: "appended_key_999" }),
+      http.get("https://plugin-hub.atomemo.ai/api/v1/debug_api_key", () =>
+        HttpResponse.json({ api_key: "appended_key_999" }),
       ),
     )
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "test_token",
-      },
-      hub: {
-        endpoint: "https://automation-plugin-api.choiceform.io",
+        production: { access_token: "test_token" },
       },
     })
 
@@ -234,14 +200,13 @@ describe("plugin refresh-key", () => {
 
     const content = await fs.readFile(envPath, "utf-8")
     expect(content).to.contain("HUB_DEBUG_API_KEY=appended_key_999")
-    expect(content).to.contain("HUB_ORGANIZATION_ID=org_345678")
     expect(content).to.contain("EXISTING_KEY=value")
     expect(content).to.contain("ANOTHER_KEY=value2")
   })
 
-  it("更新现有的 ORGANIZATION_ID", async () => {
+  it("保留 .env 文件中已有的其他键值", async () => {
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+      http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
         return HttpResponse.json({
           user: {
             name: "Test User",
@@ -254,19 +219,14 @@ describe("plugin refresh-key", () => {
           },
         })
       }),
-      http.get(
-        "https://automation-plugin-api.choiceform.io/api/v1/debug_api_key",
-        () => HttpResponse.json({ api_key: "test_key_456" }),
+      http.get("https://plugin-hub.atomemo.ai/api/v1/debug_api_key", () =>
+        HttpResponse.json({ api_key: "test_key_456" }),
       ),
     )
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "test_token",
-      },
-      hub: {
-        endpoint: "https://automation-plugin-api.choiceform.io",
+        production: { access_token: "test_token" },
       },
     })
 
@@ -281,14 +241,14 @@ describe("plugin refresh-key", () => {
 
     const content = await fs.readFile(envPath, "utf-8")
     expect(content).to.contain("HUB_DEBUG_API_KEY=test_key_456")
-    expect(content).to.contain("HUB_ORGANIZATION_ID=org_new_123")
+    expect(content).to.contain("HUB_ORGANIZATION_ID=org_old_456")
     expect(content).to.contain("OTHER_KEY=value")
-    expect(content).to.not.contain("org_old_456")
+    expect(content).to.not.contain("HUB_DEBUG_API_KEY=old_key")
   })
 
   it("正确掩码显示 API Key", async () => {
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+      http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
         return HttpResponse.json({
           user: {
             name: "Test User",
@@ -301,19 +261,14 @@ describe("plugin refresh-key", () => {
           },
         })
       }),
-      http.get(
-        "https://automation-plugin-api.choiceform.io/api/v1/debug_api_key",
-        () => HttpResponse.json({ api_key: "abcd1234efgh5678" }),
+      http.get("https://plugin-hub.atomemo.ai/api/v1/debug_api_key", () =>
+        HttpResponse.json({ api_key: "abcd1234efgh5678" }),
       ),
     )
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "test_token",
-      },
-      hub: {
-        endpoint: "https://automation-plugin-api.choiceform.io",
+        production: { access_token: "test_token" },
       },
     })
 

@@ -40,15 +40,14 @@ describe("auth status", () => {
   it("handles invalid or expired token gracefully", async function () {
     this.timeout(5000)
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+      http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
         return new HttpResponse(null, { status: 401 })
       }),
     )
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "invalid_token_123",
+        production: { access_token: "invalid_token_123" },
       },
     })
 
@@ -58,7 +57,7 @@ describe("auth status", () => {
 
   it("displays user info when authenticated", async () => {
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+      http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
         return HttpResponse.json({
           user: { name: "Test User", email: "test@example.com" },
           session: {
@@ -71,8 +70,7 @@ describe("auth status", () => {
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "valid_token_123",
+        production: { access_token: "valid_token_123" },
       },
     })
 

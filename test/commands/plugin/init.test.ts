@@ -28,7 +28,7 @@ describe("plugin init", () => {
 
     // Setup default mock for get-session
     server.use(
-      http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+      http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
         return HttpResponse.json({
           user: { name: "Test User", email: "test@example.com" },
           session: {
@@ -41,8 +41,7 @@ describe("plugin init", () => {
 
     await configStore.save({
       auth: {
-        endpoint: "https://oneauth.choiceform.io",
-        access_token: "valid_token_123",
+        production: { access_token: "valid_token_123" },
       },
     })
   })
@@ -151,7 +150,7 @@ describe("plugin init", () => {
     it("exits with error when no access token", async () => {
       await configStore.save({
         auth: {
-          endpoint: "https://oneauth.choiceform.io",
+          production: {},
         },
       })
 
@@ -164,7 +163,7 @@ describe("plugin init", () => {
 
     it("exits with error when access token is invalid", async () => {
       server.use(
-        http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+        http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
           return new HttpResponse(null, { status: 401 })
         }),
       )
@@ -178,7 +177,7 @@ describe("plugin init", () => {
 
     it("exits with error when get-session API fails", async () => {
       server.use(
-        http.get("https://oneauth.choiceform.io/v1/auth/get-session", () => {
+        http.get("https://oneauth.atomemo.ai/v1/auth/get-session", () => {
           return new HttpResponse(null, { status: 500 })
         }),
       )

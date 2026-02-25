@@ -8,8 +8,8 @@ import { colorize } from "@oclif/core/ux"
 import { assert, isString } from "es-toolkit"
 import { dedent } from "ts-dedent"
 import z from "zod"
-import * as configStore from "../../utils/config.js"
 import type { Environment } from "../../utils/config.js"
+import * as configStore from "../../utils/config.js"
 import { createPluginGenerator } from "../../utils/generator.js"
 import { selectTheme } from "../../utils/theme.js"
 
@@ -97,13 +97,11 @@ export default class PluginInit extends Command {
     // Fetch user session to get author and email
     let author = ""
     let email = ""
-    let organizationId = ""
     try {
       const env: Environment = flags.staging ? "staging" : "production"
       const session = await this.fetchSession(env)
       author = session.user.name
       email = session.user.email
-      organizationId = session.user.inherentOrganizationId
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error"
       this.log(
@@ -124,7 +122,6 @@ export default class PluginInit extends Command {
         ...flags,
         author,
         email,
-        organizationId,
         createdAt: new Date().toISOString(),
         date: new Date().toISOString().slice(0, 10),
         year: new Date().getFullYear().toString(),
@@ -297,7 +294,6 @@ export default class PluginInit extends Command {
     user: {
       name: string
       email: string
-      inherentOrganizationId: string
     }
     session: {
       updatedAt: string
@@ -313,16 +309,13 @@ export default class PluginInit extends Command {
 
     assert(authConfig.endpoint, "Auth endpoint is required")
 
-    const response = await fetch(
-      `${authConfig.endpoint}/v1/auth/get-session`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "User-Agent": "Choiceform (Atomemo Plugin CLI)",
-          Authorization: `Bearer ${authConfig.access_token}`,
-        },
+    const response = await fetch(`${authConfig.endpoint}/v1/auth/get-session`, {
+      headers: {
+        "Content-Type": "application/json",
+        "User-Agent": "Choiceform (Atomemo Plugin CLI)",
+        Authorization: `Bearer ${authConfig.access_token}`,
       },
-    )
+    })
 
     if (!response.ok) {
       if (response.status === 401) {
@@ -339,7 +332,6 @@ export default class PluginInit extends Command {
       user: {
         name: string
         email: string
-        inherentOrganizationId: string
       }
       session: {
         updatedAt: string

@@ -66,8 +66,8 @@
     "eta": "^4.5.0",
     "open": "^11.0.0",
     "ts-dedent": "^2.2.0",
-    "yocto-spinner": "^1.0.0",
-    "zod": "^4.3.5"
+    "yocto-spinner": "^1.1.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.11",
@@ -77,8 +77,8 @@
     "@types/node": "20.19.27",
     "chai": "4.5.0",
     "mocha": "10.8.2",
-    "msw": "^2.12.7",
-    "oclif": "^4.22.65",
+    "msw": "^2.12.10",
+    "oclif": "^4.22.81",
     "shx": "^0.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
