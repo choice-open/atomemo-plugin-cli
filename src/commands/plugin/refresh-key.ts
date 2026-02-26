@@ -45,11 +45,16 @@ export default class PluginRefreshKey extends Command {
       // Step 3: Manage .env file
       const hubConfig = config.hub?.[env]
       assert(hubConfig?.endpoint, "Hub endpoint is required")
-      await this.updateEnvFile(apiKey)
+      await this.updateEnvFile(apiKey, hubConfig.endpoint)
 
       // Display success message
       this.log(colorize("green", "✓ Debug API Key refreshed successfully"))
-      this.log(colorize("green", "✓ HUB_DEBUG_API_KEY updated in .env file"))
+      this.log(
+        colorize(
+          "green",
+          "✓ HUB_WS_URL and HUB_DEBUG_API_KEY updated in .env file",
+        ),
+      )
       this.log("")
       this.log("Your debug API Key has been saved to .env file.")
       this.log(`Key preview: ${this.maskApiKey(apiKey)}`)
@@ -96,22 +101,35 @@ export default class PluginRefreshKey extends Command {
     return data.api_key
   }
 
-  private async updateEnvFile(apiKey: string): Promise<void> {
+  private async updateEnvFile(apiKey: string, wsUrl: string): Promise<void> {
     const envPath = join(process.cwd(), ".env")
 
     try {
       // Check if .env file exists
       let envContent = ""
       let existingApiKey = false
+      let existingWsUrl = false
 
       try {
         envContent = await fs.readFile(envPath, "utf-8")
         existingApiKey = envContent.includes("HUB_DEBUG_API_KEY=")
+        existingWsUrl = envContent.includes("HUB_WS_URL=")
       } catch (_error) {
         // File doesn't exist, will create new file
       }
 
       let newContent: string = envContent
+
+      // Update or add HUB_WS_URL
+      if (existingWsUrl) {
+        newContent = newContent.replace(
+          /^HUB_WS_URL=.*$/m,
+          `HUB_WS_URL=${wsUrl}`,
+        )
+      } else {
+        const separator = newContent && !newContent.endsWith("\n") ? "\n" : ""
+        newContent = `${newContent + separator}HUB_WS_URL=${wsUrl}\n`
+      }
 
       // Update or add HUB_DEBUG_API_KEY
       if (existingApiKey) {
