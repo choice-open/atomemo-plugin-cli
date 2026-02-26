@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-02-26
+
+### Fixed
+
+- `plugin refresh-key` 命令现在同时更新 `HUB_WS_URL`（取自 hub 配置的 `endpoint`）
+
 ## [0.6.0] - 2026-02-26
 
 ### Added
@@ -283,7 +289,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.6.1...HEAD
+[0.6.1]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.12...v0.6.0
 [0.5.12]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.11...v0.5.12
 [0.5.11]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.10...v0.5.11
