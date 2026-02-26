@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "atomemo-plugin-development": {
+      "source": "choice-open/skills",
+      "sourceType": "github",
+      "computedHash": "be0b81a3ba4c52a0f8e96924ae1dae5b191da844d2c6a1ba2967f426226fe6b4"
+    }
+  }
+}
