@@ -45,7 +45,10 @@ export default class PluginRefreshKey extends Command {
       // Step 3: Manage .env file
       const hubConfig = config.hub?.[env]
       assert(hubConfig?.endpoint, "Hub endpoint is required")
-      await this.updateEnvFile(apiKey, hubConfig.endpoint)
+      await this.updateEnvFile(
+        apiKey,
+        hubConfig.endpoint.replace(/^https/, "wss"),
+      )
 
       // Display success message
       this.log(colorize("green", "✓ Debug API Key refreshed successfully"))
