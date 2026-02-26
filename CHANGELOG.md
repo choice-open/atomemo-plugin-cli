@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-02-26
+
+### Added
+
+- 插件模板新增 Atomemo 插件开发 skill（`atomemo-plugin-development`），包含完整的参考文档：
+  - 快速入门指南
+  - Tool 插件开发指南
+  - Model 插件开发指南
+  - Credential 定义指南
+  - 声明式参数配置指南及示例
+  - 发布指南
+
+### Changed
+
+- `auth login` 命令现在默认连接生产环境服务
+- `auth status` 命令现在默认连接生产环境服务
+- HUB API 服务地址改为全局配置（不再以插件为单位存储）
+- `plugin refresh-key` 命令简化：直接调用 hub API，仅写入 `HUB_DEBUG_API_KEY`，不再写入 `HUB_ORGANIZATION_ID`
+
+### Breaking Changes
+
+- `plugin refresh-key` 行为变更：不再获取或写入 `HUB_ORGANIZATION_ID`，若需要组织 ID 请使用 `plugin init` 命令初始化时自动写入
+
+## [0.5.12] - 2026-02-09
+
+### Changed
+
+- 模板更新：`package.json` 模块导出路径从 `./dist/index.js` 改为 `./dist/index.mjs`
+- 模板更新：移除 `main` 和 `module` 字段，改为统一使用 `exports`
+- 模板更新：新增 `check` 脚本（`biome check . --write`）
+- 模板更新：新增 `release` 脚本（基于 `bumpp`）
+- 模板更新：移除 `prepublishOnly` 脚本
+- 模板更新：重写测试文件，提升测试覆盖率
+- 更新模板依赖版本：
+  - `dotenv`: ^17.2.3 → ^17.2.4
+  - `@biomejs/biome`: ^2.3.13 → ^2.3.14
+  - `bumpp`: ^10.4.0 → ^10.4.1
+  - `tsdown`: ^0.20.1 → ^0.20.3
+
+### Removed
+
+- 移除模板中过时的文档文件：
+  - `.claude/commands/commit.md`
+  - `.spec/ARCHITECTURE.md`
+  - `src/README.md`
+  - `src/i18n/README.md`
+  - `src/tools/README.md`
+  - `test/README.md`
+
 ## [0.5.11] - 2026-02-02
 
 ### Changed
@@ -234,7 +283,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Code quality checks with Biome.
 - Automated release workflow via GitHub Actions.
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.11...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.12...v0.6.0
+[0.5.12]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.11...v0.5.12
 [0.5.11]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.10...v0.5.11
 [0.5.10]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.9...v0.5.10
 [0.5.9]: https://github.com/choice-open/atomemo-plugin-cli/compare/v0.5.8...v0.5.9
